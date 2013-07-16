@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>be.ctb.jq.alv</groupId>
+  <artifactId>apex-live-validation</artifactId>
+  <version>1.0</version>
+  <name>APEX Live Validation</name>
+  <url>https://github.com/nbuytaert1/apex-live-validation</url>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>uglifyjs-maven-plugin</id>
+      <url>https://raw.github.com/tqh/uglifyjs-maven-plugin/master/repo</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>jsdoctk2</id>
+      <url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.searls</groupId>
+        <artifactId>jasmine-maven-plugin</artifactId>
+        <version>1.3.1.2</version>
+        <configuration>
+          <preloadSources>
+            <include>/src/main/lib/jquery-1.10.2/jquery.js</include>
+          </preloadSources>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>net.tqh.plugins</groupId>
+        <artifactId>uglifyjs-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <sourceDirectory>src/main/javascript</sourceDirectory>
+          <outputDirectory>target/minified</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>uglify</goal>
+            </goals>
+          </execution>
+       </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>nl.windgazer</groupId>
+        <artifactId>jsdoctk-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <recurse>3</recurse>
+          <srcDir>src/main/javascript</srcDir>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>jsdoc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

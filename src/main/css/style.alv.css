@@ -1,0 +1,52 @@
+#alv-msg-box {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 600px;
+    margin-left: -300px;
+    min-height: 0;
+    border: 0;
+    z-index: 9999;
+}
+.alv-alert-msg {
+    background-color: #f2dede;
+    color: #b94a48;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    border: 1px solid #eed3d7;
+    padding: 14px 35px 14px 14px;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.alv-close {
+    float: right;
+    position: relative;
+    top: -2px;
+    right: -21px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: .2;
+    filter: alpha(opacity=20);
+}
+.alv-close:hover {
+    color: #000000;
+    text-decoration: none;
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+.alv-alert-msg p {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 0;
+}
+@media (max-width: 979px) {
+    #alv-msg-box {
+        width: 400px;
+        margin-left: -200px;
+    }
+}

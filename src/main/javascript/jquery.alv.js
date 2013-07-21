@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * @namespace The namespace for the APEX Live Validation (ALV) plugin.
+ * @namespace The alv namespace.
  */
 var alv = {};
 
@@ -10,39 +10,47 @@ var alv = {};
  * @namespace Utility module.
  */
 alv.util = {
-    jQuery: $,
-
     /**
      * @description Trim leading and trailing whitespace characters from a string value.
-     * @param {String} pVal The value which you want to trim.
-     * @returns {String} The trimmed value.
+     * @param {String} pVal The value to be trimmed.
+     * @returns {String} The trimmed value of pVal.
      */
     trim: function (pVal) {
         return pVal.replace(/^\s+|\s+$/g, "");
     },
     /**
-     * @description Get the value of a page item if an ID selector is passed as parameter, otherwise return the parameter value.
-     * @param {String} pItem Can be either an APEX page item ID selector or a statically defined value.
-     * @returns {String} The value of the page item or the statically defined value.
+     * @description Get the value of an APEX page item if an ID selector is passed as parameter, otherwise return the parameter value.
+     * @param {String} pItem Can be either an APEX page item ID selector or a fixed value.
+     * @returns {String} The value of a page item or a fixed value.
      */
     getPageItemValue: function (pItem) {
         if (pItem.substring(0, 2) === "#P") {
             return $(pItem).val();
-        } else {
-            return pItem;
         }
+        return pItem;
     },
     /**
-     * @description Get the result of JavaScript condition.
-     * @param {String} pCondition A JavaScript expression in the form of a string that will be evaluated with eval().
+     * @description Get the result of JavaScript expression.
+     * @param {String} pExpression A JavaScript expression in the form of a string that will be evaluated with eval().
      * @returns {Boolean} The boolean result of the expression.
      */
-    getConditionResult: function (pCondition) {
-        if (pCondition.length !== 0) {
-            return eval(pCondition);
-        } else {
-            return true;
+    getConditionResult: function (pExpression) {
+        var expressionResult = true;
+        if (pExpression.length) {
+            expressionResult = eval(pExpression);
         }
+        return expressionResult;
+    },
+    /**
+     * @description Get the numeric value of a string. Return an empty string if pVal is empty.
+     * @param {String} pVal The numeric value as a string.
+     * @returns {Number|String} The numeric value of pVal or an empty string.
+     */
+    getNumberFromString: function (pVal) {
+        if (pVal.length) {
+            return Number(pVal);
+        }
+        return "";
     },
     /**
      * @description Format a DD/MM/YYYY date represented as a string to a date object.
@@ -58,23 +66,20 @@ alv.util = {
         return new Date(year, month - 1, day);
     },
     /**
-     * @description Convert a string date in a specific format to the DD/MM/YYYY date format.
-     * @param {String} pDate The date that has to be converted.
+     * @description Convert a string date in a given date format to the DD/MM/YYYY date format.
+     * @param {String} pDate The date to be converted.
      * @param {String} pDateFormat The date format of pDate.
      * @returns {String} The date value in the DD/MM/YYYY format.
      */
     convertDate: function (pDate, pDateFormat) {
+        var dateFormat = pDateFormat.toUpperCase();
+        var dateFormatSeparator = dateFormat.replace(/[A-Z]+/g, "");
+        var dateSeparator = pDate.replace(/\d+/g, "");
         var dayPart;
         var monthPart;
         var yearPart;
-        var dateSeparator;
-        var dateFormatSeparator;
-        var dateFormat = pDateFormat.toUpperCase();
 
-        dateSeparator = pDate.replace(/\d+/g, "");
-        dateFormatSeparator = dateFormat.replace(/[A-Z]+/g, "");
-
-        if (pDate.length === pDateFormat.length || dateSeparator === dateFormatSeparator) {
+        if (pDate.length === pDateFormat.length && dateSeparator === dateFormatSeparator) {
             if (dateFormat.indexOf("DD") === -1) {
                 dayPart = "xx";
             } else {
@@ -115,11 +120,10 @@ alv.util = {
  * @namespace Validators module.
  */
 alv.validators = {
-    jQuery: $,
     util: alv.util,
 
     /**
-     * @description Validate whether a value is empty.
+     * @description Check whether a value is empty.
      * @param {String|Number|RegExp} pVal The value to be tested.
      * @returns {Boolean}
      */
@@ -127,7 +131,7 @@ alv.validators = {
         return pVal === "";
     },
     /**
-     * @description Check for equal values between two parameters.
+     * @description Check for equality between two values.
      * @param {String} pVal The first value.
      * @param {String} pVal2 The second value.
      * @returns {Boolean}
@@ -136,17 +140,16 @@ alv.validators = {
         return pVal === pVal2;
     },
     /**
-     * @description Validate whether a value matches a regular expression.
-     * @param {String} pVal The value to be tested.
-     * @param {RegExp} pRegex The regular expression.
+     * @description Check whether a value matches a regular expression.
+     * @param {String|Number} pVal The value to be tested.
+     * @param {String|RegExp} pRegex The regular expression.
      * @returns {Boolean}
      */
     regex: function (pVal, pRegex) {
         return new RegExp(pRegex).test(pVal) || this.isEmpty(pVal);
     },
-
     /**
-     * @description Validate whether a value contains only alphanumeric characters.
+     * @description Check whether a value contains only alphanumeric characters.
      * @param {String} pVal The value to be tested.
      * @returns {Boolean}
      */
@@ -154,15 +157,15 @@ alv.validators = {
         return this.regex(pVal, /^[a-z0-9]+$/i);
     },
     /**
-     * @description Validate whether a value is a valid number.
-     * @param {String} pVal The value to be tested.
+     * @description Check whether a value is a valid number.
+     * @param {Number} pVal The value to be tested.
      * @returns {Boolean}
      */
     isNumber: function (pVal) {
         return this.regex(pVal, /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/);
     },
     /**
-     * @description Validate whether a value contains only digit characters.
+     * @description Check whether a value contains only digit characters.
      * @param {String} pVal The value to be tested.
      * @returns {Boolean}
      */
@@ -170,7 +173,7 @@ alv.validators = {
         return this.regex(pVal, /^\d+$/);
     },
     /**
-     * @description Validate whether a value is a valid e-mail address.
+     * @description Check whether a value is a valid e-mail address.
      * @param {String} pVal The value to be tested.
      * @returns {Boolean}
      */
@@ -178,7 +181,7 @@ alv.validators = {
         return this.regex(pVal, /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
     },
     /**
-     * @description Validate whether a value is a valid URL.
+     * @description Check whether a value is a valid URL.
      * @param {String} pVal The value to be tested.
      * @returns {Boolean}
      */
@@ -186,17 +189,16 @@ alv.validators = {
         return this.regex(pVal, /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/);
     },
     /**
-     * @description Validate whether a value is a valid date.
+     * @description Check whether a value is a valid date.
      * @param {String} pVal The value to be tested.
      * @param {String} pDateFormat The date format of pVal.
      * @returns {Boolean}
      */
     isDate: function (pVal, pDateFormat) {
-        var isValidDate = false;
+        var dateRegex = new RegExp("^(3[01]|[12][0-9]|0?[1-9])/(1[0-2]|0?[1-9])/(?:[0-9]{2})?[0-9]{2}$");
         var convertedDate = this.util.convertDate(pVal, pDateFormat);
-        var dateFormatRegex = new RegExp("^(3[01]|[12][0-9]|0?[1-9])/(1[0-2]|0?[1-9])/(?:[0-9]{2})?[0-9]{2}$");
 
-        if (convertedDate.match(dateFormatRegex)) {
+        if (convertedDate.match(dateRegex)) {
             var dateArray = convertedDate.split("/");
             var year = parseInt(dateArray[2]);
             var month = parseInt(dateArray[1], 10);
@@ -204,14 +206,13 @@ alv.validators = {
             var date = new Date(year, month - 1, day);
 
             if (((date.getMonth() + 1) === month) && (date.getDate() === day) && (date.getFullYear() === year)) {
-                isValidDate = true;
+                return true;
             }
         }
-        return isValidDate || this.isEmpty(pVal);
+        return this.isEmpty(pVal);
     },
-
     /**
-     * @description Validate whether the character length of a value is not lower than the minimum character length.
+     * @description Check whether the character length of a value is not lower than pMin.
      * @param {String} pVal The value to be tested.
      * @param {Number} pMin The minimum character length.
      * @returns {Boolean}
@@ -220,7 +221,7 @@ alv.validators = {
         return pVal.length >= pMin || this.isEmpty(pVal);
     },
     /**
-     * @description Validate whether the character length of a value is not higher than the maximum character length.
+     * @description Check whether the character length of a value is not higher than pMax.
      * @param {String} pVal The value to be tested.
      * @param {Number} pMax The maximum character length.
      * @returns {Boolean}
@@ -229,7 +230,7 @@ alv.validators = {
         return pVal.length <= pMax || this.isEmpty(pVal);
     },
     /**
-     * @description Validate whether the character length of a value lies between the minimum and maximum character length.
+     * @description Check whether the character length of a value lies between pMin and pMax.
      * @param {String} pVal The value to be tested.
      * @param {Number} pMin The minimum character length.
      * @param {Number} pMax The maximum character length.
@@ -238,38 +239,53 @@ alv.validators = {
     rangeLength: function (pVal, pMin, pMax) {
         return this.minLength(pVal, pMin) && this.maxLength(pVal, pMax) || this.isEmpty(pVal);
     },
-
     /**
-     * @description Validate whether a number is not lower than the minimum number.
+     * @description Check whether a numeric value is not lower than pMin.
      * @param {Number} pVal The value to be tested.
      * @param {Number} pMin The minimum number.
      * @returns {Boolean}
      */
     minNumber: function (pVal, pMin) {
-        return pVal >= pMin || this.isEmpty(pVal);
+        if (!this.isEmpty(pVal) && !this.isEmpty(pMin)) {
+            if (this.isNumber(pVal) && this.isNumber(pMin)) {
+                return pVal >= pMin;
+            }
+        }
+        return true;
     },
     /**
-     * @description Validate whether a number is not higher than the maximum number.
+     * @description Check whether a numeric value is not higher than pMax.
      * @param {Number} pVal The value to be tested.
      * @param {Number} pMax The maximum number.
      * @returns {Boolean}
      */
     maxNumber: function (pVal, pMax) {
-        return pVal <= pMax || this.isEmpty(pVal);
+        if (!this.isEmpty(pVal) && !this.isEmpty(pMax)) {
+            if (this.isNumber(pVal) && this.isNumber(pMax)) {
+                return pVal <= pMax;
+            }
+        }
+        return true;
     },
     /**
-     * @description Validate whether a number lies between the minimum and maximum number.
+     * @description Check whether a numeric value lies between pMin and pMax.
      * @param {Number} pVal The value to be tested.
      * @param {Number} pMin The minimum number.
      * @param {Number} pMax The maximum number.
      * @returns {Boolean}
      */
     rangeNumber: function (pVal, pMin, pMax) {
-        return this.minNumber(pVal, pMin) && this.maxNumber(pVal, pMax) || this.isEmpty(pVal);
+        if (!this.isEmpty(pVal) && !this.isEmpty(pMin) && !this.isEmpty(pMax)) {
+            if (this.isNumber(pVal) && this.isNumber(pMin) && this.isNumber(pMax)) {
+                if (pMax >= pMin) {
+                    return this.minNumber(pVal, pMin) && this.maxNumber(pVal, pMax);
+                }
+            }
+        }
+        return true;
     },
-
     /**
-     * @description Validate whether the amount of selected checkboxes is not lower than the minimum boundary.
+     * @description Check whether the amount of selected checkboxes is not lower than pMin.
      * @param {String} pChoices The ID selector of the checkbox group that will be validated.
      * @param {Number} pMin The minimum amount of selected checkboxes.
      * @param {Boolean} pEmptyAllowed Indicate whether it is allowed to have no checkbox selected.
@@ -285,7 +301,7 @@ alv.validators = {
         }
     },
     /**
-     * @description Validate whether the amount of selected checkboxes is not higher than the maximum boundary.
+     * @description Check whether the amount of selected checkboxes is not higher than pMax.
      * @param {String} pChoices The ID selector of the checkbox group that will be validated.
      * @param {Number} pMax The maximum amount of selected checkboxes.
      * @returns {Boolean}
@@ -295,7 +311,7 @@ alv.validators = {
         return this.maxNumber(totalChecked, pMax) || totalChecked === 0;
     },
     /**
-     * @description Validate whether the amount of selected checkboxes lies between the minimum and maximum boundary.
+     * @description Check whether the amount of selected checkboxes lies pMin and pMax.
      * @param {String} pChoices The ID selector of the checkbox group that will be validated.
      * @param {Number} pMin The minimum amount of selected checkboxes.
      * @param {Number} pMax The maximum amount of selected checkboxes.
@@ -305,9 +321,8 @@ alv.validators = {
         var totalChecked = $(pChoices).filter(':checked').length;
         return this.rangeNumber(totalChecked, pMin, pMax) || totalChecked === 0;
     },
-
     /**
-     * @description Validate whether a given date is not lower than the minimum date.
+     * @description Check whether a date does not lie before pMin.
      * @param {String} pVal The date to be tested.
      * @param {String} pMin The minimum date.
      * @param {String} pDateFormat The date format.
@@ -328,7 +343,7 @@ alv.validators = {
         return true;
     },
     /**
-     * @description Validate whether a given date is not higher than the maximum date.
+     * @description Check whether a date does not lie after pMax.
      * @param {String} pVal The date to be tested.
      * @param {String} pMax The maximum date.
      * @param {String} pDateFormat The date format.
@@ -349,7 +364,7 @@ alv.validators = {
         return true;
     },
     /**
-     * @description Validate whether a given date lies between the minimum and maximum date.
+     * @description Check whether a date lies between pMin and pMax.
      * @param {String} pVal The date to be tested.
      * @param {String} pMin The minimum date.
      * @param {String} pMax The maximum date.
@@ -367,17 +382,14 @@ alv.validators = {
                 minimumDate = this.util.getDateFromString(this.util.convertDate(pMin, pDateFormat));
                 maximumDate = this.util.getDateFromString(this.util.convertDate(pMax, pDateFormat));
 
-                if (minimumDate > maximumDate) {
-                    return true;
+                if (maximumDate >= minimumDate) {
+                    return date >= minimumDate && date <= maximumDate;
                 }
-
-                return date >= minimumDate && date <= maximumDate;
             }
         }
         return true;
     }
 };
-
 
 
 /**
@@ -387,15 +399,14 @@ alv.validators = {
     "use strict";
 
     $.fn.alv = function (method, options) {
-
         var constants = {
             'pluginId': "be.ctb.jq.alv",
             'pluginName': "APEX Live Validation",
             'pluginPrefix': "alv",
 
+            'selector': this.selector,
+
             // apex related
-            'itemErrorClass': 'apex-page-item-error',
-            'errorMsgClass': 'label-error',
             'apexCheckboxClass': 'checkbox_group',
             'apexRadioClass': 'radio_group',
             'apexShuttleClass': 'shuttle'
@@ -403,22 +414,27 @@ alv.validators = {
         $.extend(constants, {
             // validation identifiers
             'notEmptyClass': constants.pluginPrefix + "-" + "notEmpty",
+            'itemTypeClass': constants.pluginPrefix + "-" + "itemType",
             'equalClass': constants.pluginPrefix + "-" + "equal",
             'regexClass': constants.pluginPrefix + "-" + "regex",
-            'itemTypeClass': constants.pluginPrefix + "-" + "itemType",
             'charLengthClass': constants.pluginPrefix + "-" + "charLength",
             'numberSizeClass': constants.pluginPrefix + "-" + "numberSize",
             'dateOrderClass': constants.pluginPrefix + "-" + "dateOrder",
-            'totalCheckedClass': constants.pluginPrefix + "-" + "totalChecked"
+            'totalCheckedClass': constants.pluginPrefix + "-" + "totalChecked",
+
+            // css classes
+            'itemErrorClass': 'alv-item-error',
+            'labelErrorClass': 'alv-label-error',
+            'errorMsgClass': 'alv-error-msg'
         });
 
         var settings = {
             'validate': 'notEmpty',
             'triggeringEvent': 'blur',
             'condition': '',
-            'validationMinLength': 0,  // the amount of characters required before the validation is fired
+            'validationMinLength': 0,
             'errorMsg': '',
-            'errorMsgLocation': 'before',
+            'errorMsgLocation': 'after',
             'allowWhitespace': true,
             'itemType': '',
             'dateFormat': '',
@@ -426,25 +442,36 @@ alv.validators = {
             'max': '',
             'equal': '',
             'regex': '',
-            'formSubmitElems': ''
+            'formsToSubmit': ''
         };
 
         var methods = {
+            /**
+             * @description Public function to validate one or more page items.
+             * @param {Object} options The validation settings.
+             */
             init: function (options) {
                 var element = $(this);
                 bindSettings(element, options);
                 init(element);
             },
+            /**
+             * @description Public function to validate one or more forms.
+             * @param {Object} options The validation settings.
+             */
+            validateForm: function (options) {
+                var element = $(this);
+                bindSettings(element, options);
+                validateFormBeforeSubmit(element);
+            },
+            /**
+             * @description Public function to remove existing validations from an element.
+             */
             remove: function () {
                 var element = $(this);
                 if (restorePluginSettings(element)) {
                     method();
                 }
-            },
-            validateForm: function (options) {
-                var element = $(this);
-                bindSettings(element, options);
-                validateFormBeforeSubmit(element);
             }
         };
 
@@ -471,10 +498,10 @@ alv.validators = {
         return $(this).each(function () {
             if (methods[method]) {
                 return methods[method].call($(this), options);
-            } else if (typeof method === 'object' || !method) {
+            } else if (typeof method === "object" || !method) {
                 return methods.init.call($(this), method);
             } else {
-                $.error('Method ' + method + ' does not exist on jQuery. ' + constants.pluginName);
+                $.error("Method " + method + " does not exist on jQuery. " + constants.pluginName);
                 return false;
             }
         });
@@ -496,14 +523,14 @@ alv.validators = {
                     }
                     element.on(triggeringEvent, isEmptyHandler);
                     break;
+                case 'itemType':
+                    element.on(triggeringEvent, itemTypeHandler);
+                    break;
                 case 'equal':
                     element.on(triggeringEvent, isEqualHandler);
                     break;
                 case 'regex':
                     element.on(triggeringEvent, regexHandler);
-                    break;
-                case 'itemType':
-                    element.on(triggeringEvent, itemTypeHandler);
                     break;
                 case 'charLength':
                     element.on(triggeringEvent, charLengthHandler);
@@ -524,8 +551,6 @@ alv.validators = {
 
 
         // VALIDATION HANDLERS
-
-        // general
         function isEmptyHandler() {
             var itemEmpty;
             var emptyMsg = setMsg(settings.errorMsg, "value required");
@@ -535,7 +560,7 @@ alv.validators = {
                     $(this).hasClass(constants.apexRadioClass)) {
                     itemEmpty = !validators.minCheck($(this).find(':checkbox, :radio'), 1, false);
                 } else if ($(this).hasClass(constants.apexShuttleClass)) {
-                    itemEmpty = !$(this).find('select.shuttle_right').val();
+                    itemEmpty = !$(this).find('select.shuttle_right').children().length;
                 } else if ($(this).prop('tagName') === 'SELECT' || $(this).attr('type') === 'file') {
                     itemEmpty = validators.isEmpty(this.value);
                 } else {
@@ -588,7 +613,6 @@ alv.validators = {
             }
         }
 
-        // item types
         function itemTypeHandler() {
             var itemTypeOk;
             var itemTypeErrorMsg;
@@ -634,7 +658,6 @@ alv.validators = {
             }
         }
 
-        // strings
         function charLengthHandler() {
             var charLengthOk;
             var charLengthErrorMsg;
@@ -663,13 +686,12 @@ alv.validators = {
             }
         }
 
-        // numbers
         function numberSizeHandler() {
             var numberSizeOk;
             var numberSizeErrorMsg;
-            var value = Number(this.value);
-            var min = Number(util.getPageItemValue(settings.min));
-            var max = Number(util.getPageItemValue(settings.max));
+            var value = util.getNumberFromString(this.value);
+            var min = util.getNumberFromString(util.getPageItemValue(settings.min));
+            var max = util.getNumberFromString(util.getPageItemValue(settings.max));
 
             if (allowValidation(this, constants.numberSizeClass)) {
                 if (validators.minLength(this.value, settings.validationMinLength)) {
@@ -695,7 +717,6 @@ alv.validators = {
             }
         }
 
-        // checkboxes
         function totalCheckedHandler() {
             var totalCheckedOk;
             var totalCheckedErrorMsg;
@@ -723,7 +744,6 @@ alv.validators = {
             }
         }
 
-        // dates
         function dateOrderHandler() {
             var dateOrderOk;
             var dateOrderErrorMsg;
@@ -758,10 +778,10 @@ alv.validators = {
         // ERROR MESSAGE
         function showMessage(pElem, pMessage) {
             var inputElem = $(pElem);
-            var errorMsgHtml = "<span class=\"" + constants.errorMsgClass + "\" data-alv-for=\"" + pElem.id + "\">" + pMessage + "</span>";
+            var errorMsgHtml = "<span class=\"" + constants.errorMsgClass + " " + pElem.id + "\">" + pMessage + "</span>";
 
             if (inputElem.hasClass(constants.itemErrorClass)) {
-                var errorMsgElem = inputElem.siblings('[data-alv-for=' + pElem.id + ']');
+                var errorMsgElem = $('span.' + constants.errorMsgClass + '.' + pElem.id);
                 var errorMsgElemIndex = errorMsgElem.index();
                 var inputElemIndex = inputElem.index();
 
@@ -778,6 +798,7 @@ alv.validators = {
                 }
             } else {
                 inputElem.addClass(constants.itemErrorClass);
+                $('[for=' + pElem.id + ']').addClass(constants.labelErrorClass);
                 if (settings.errorMsgLocation === 'before') {
                     inputElem.before(errorMsgHtml);
                 } else {
@@ -788,24 +809,22 @@ alv.validators = {
 
         function hideMessage(pElem) {
             var inputElem = $(pElem);
-
             if (inputElem.hasClass(constants.itemErrorClass)) {
                 inputElem.removeClass(constants.itemErrorClass);
-                inputElem.siblings('[data-alv-for=' + pElem.id + ']').remove();
+                $('[for=' + pElem.id + ']').removeClass(constants.labelErrorClass);
+                $('span.' + constants.errorMsgClass + '.' + pElem.id).remove();
             }
         }
 
         function setMsg(customMsg, defaultMsg) {
-            if (customMsg !== "") {
+            if (!validators.isEmpty(customMsg)) {
                 return customMsg;
-            } else {
-                return defaultMsg;
             }
+            return defaultMsg;
         }
 
         function replaceMsgVars(pMessage) {
             var errorMsg = pMessage;
-
             for (var i = 1, j = arguments.length; i < j; i++) {
                 errorMsg = errorMsg.replace("&" + i, arguments[i]);
             }
@@ -848,10 +867,10 @@ alv.validators = {
 
 
         // FORM VALIDATION
-        function formHasErrors(pForm) {
+        function formHasErrors(pForms) {
             var formHasErrors = false;
-            var form = $(pForm);
-            var formElems = form.find('input, textarea, select, fieldset');
+            var forms = $(pForms);
+            var formElems = forms.find('input, textarea, select, fieldset');
             var formElem;
             var formElemEvents;
             var event;
@@ -871,56 +890,44 @@ alv.validators = {
                 }
             });
 
-            $.each(formElems, function () {
-                formElem = $(this);
-                if (formElem.hasClass(constants.itemErrorClass)) {
-                    formElem.focus();
-                    formHasErrors = true;
-                    return false;
-                }
-            });
+            if (formElems.hasClass(constants.itemErrorClass)) {
+                $(formElems).filter('.' + constants.itemErrorClass).first().focus();
+                formHasErrors = true;
+            }
 
             return formHasErrors;
         }
 
-        function validateFormBeforeSubmit(pForm) {
+        function validateFormBeforeSubmit(pFiringElem) {
+            var firingElem = $(pFiringElem);
             var origClickEventKey = constants.pluginPrefix + '-' + 'origClickEvent';
             var origClickEvent;
-            var firingElem;
-
             var fixErrorsMsg = setMsg(settings.errorMsg, "Please fix all errors before continuing");
             var messageBoxId = "#alv-msg-box";
-            var msgBox =      '<div class="alv-alert-msg">';
-            msgBox = msgBox + '  <a href="#" class="alv-close" onclick="$(\'' + messageBoxId + '\').children().fadeOut();return false;">x</a>';
-            msgBox = msgBox + '  <p>' + fixErrorsMsg + '</p>';
-            msgBox = msgBox + '</div>';
+            var msgBox = '<div class="alv-alert-msg"><a href="#" class="alv-close" onclick="$(\'' + messageBoxId + '\').children().fadeOut();return false;">x</a><p>' + fixErrorsMsg + '</p></div>';
 
-            $.each(settings.formSubmitElems.split(","), function (index, item) {
-                firingElem = $(item);
-
-                if (firingElem.length !== 0) {
-                    if (firingElem.prop('tagName') === 'BUTTON') {
-                        origClickEvent = firingElem.attr('click');
-                        firingElem.data(origClickEventKey, origClickEvent);
-                        firingElem.removeAttr('click');
-                    } else {
-                        origClickEvent = firingElem.attr('href');
-                        firingElem.data(origClickEventKey, origClickEvent);
-                        firingElem.removeAttr('href');
-                    }
-
-                    firingElem.on('click', function () {
-                        if (!formHasErrors(pForm)) {
-                            eval($(this).data(origClickEventKey));
-                        } else {
-                            if (!$(messageBoxId).length) {
-                                $('body').append('<div id="' + messageBoxId.substring(1) + '"></div>');
-                            }
-                            $(messageBoxId).html(msgBox);
-                        }
-                    });
+            if (firingElem.length) {
+                if (firingElem.prop('tagName') === 'BUTTON') {
+                    origClickEvent = firingElem.attr('onclick');
+                    firingElem.data(origClickEventKey, origClickEvent);
+                    firingElem.removeAttr('onclick');
+                } else {
+                    origClickEvent = firingElem.attr('href');
+                    firingElem.data(origClickEventKey, origClickEvent);
+                    firingElem.removeAttr('href');
                 }
-            });
+
+                firingElem.on('click', function () {
+                    if (!formHasErrors(settings.formsToSubmit)) {
+                        eval($(this).data(origClickEventKey));
+                    } else {
+                        if (!$(messageBoxId).length) {
+                            $('body').append('<div id="' + messageBoxId.substring(1) + '"></div>');
+                        }
+                        $(messageBoxId).html(msgBox);
+                    }
+                });
+            }
         }
     }
 })(jQuery, alv.util, alv.validators);

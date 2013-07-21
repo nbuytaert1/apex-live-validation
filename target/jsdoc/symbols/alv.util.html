@@ -269,16 +269,16 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">alv.util.<b><a href="../symbols/alv.util.html#.convertDate">convertDate</a></b>(pDate, pDateFormat)
 								</div>
-								<div class="description">Convert a string date in a specific format to the DD/MM/YYYY date format.</div>
+								<div class="description">Convert a string date in a given date format to the DD/MM/YYYY date format.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">alv.util.<b><a href="../symbols/alv.util.html#.getConditionResult">getConditionResult</a></b>(pCondition)
+								<div class="fixedFont">alv.util.<b><a href="../symbols/alv.util.html#.getConditionResult">getConditionResult</a></b>(pExpression)
 								</div>
-								<div class="description">Get the result of JavaScript condition.</div>
+								<div class="description">Get the result of JavaScript expression.</div>
 							</td>
 						</tr>
 					
@@ -294,9 +294,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">alv.util.<b><a href="../symbols/alv.util.html#.getNumberFromString">getNumberFromString</a></b>(pVal)
+								</div>
+								<div class="description">Get the numeric value of a string.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">alv.util.<b><a href="../symbols/alv.util.html#.getPageItemValue">getPageItemValue</a></b>(pItem)
 								</div>
-								<div class="description">Get the value of a page item if an ID selector is passed as parameter, otherwise return the parameter value.</div>
+								<div class="description">Get the value of an APEX page item if an ID selector is passed as parameter, otherwise return the parameter value.</div>
 							</td>
 						</tr>
 					
@@ -365,7 +374,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Convert a string date in a specific format to the DD/MM/YYYY date format.
+						Convert a string date in a given date format to the DD/MM/YYYY date format.
 						
 						
 					</div>
@@ -380,7 +389,7 @@ ul.inheritsList
 									<span class="light fixedFont">{String}</span> <b>pDate</b>
 									
 								</dt>
-								<dd>The date that has to be converted.</dd>
+								<dd>The date to be converted.</dd>
 							
 								<dt>
 									<span class="light fixedFont">{String}</span> <b>pDateFormat</b>
@@ -410,11 +419,11 @@ ul.inheritsList
 					<div class="fixedFont">&lt;static&gt; 
 					
 					<span class="light">{Boolean}</span>
-					<span class="light">alv.util.</span><b>getConditionResult</b>(pCondition)
+					<span class="light">alv.util.</span><b>getConditionResult</b>(pExpression)
 					
 					</div>
 					<div class="description">
-						Get the result of JavaScript condition.
+						Get the result of JavaScript expression.
 						
 						
 					</div>
@@ -426,7 +435,7 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>pCondition</b>
+									<span class="light fixedFont">{String}</span> <b>pExpression</b>
 									
 								</dt>
 								<dd>A JavaScript expression in the form of a string that will be evaluated with eval().</dd>
@@ -492,6 +501,49 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name=".getNumberFromString"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Number|String}</span>
+					<span class="light">alv.util.</span><b>getNumberFromString</b>(pVal)
+					
+					</div>
+					<div class="description">
+						Get the numeric value of a string. Return an empty string if pVal is empty.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>pVal</b>
+									
+								</dt>
+								<dd>The numeric value as a string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number|String}</span> The numeric value of pVal or an empty string.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name=".getPageItemValue"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -500,7 +552,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Get the value of a page item if an ID selector is passed as parameter, otherwise return the parameter value.
+						Get the value of an APEX page item if an ID selector is passed as parameter, otherwise return the parameter value.
 						
 						
 					</div>
@@ -515,7 +567,7 @@ ul.inheritsList
 									<span class="light fixedFont">{String}</span> <b>pItem</b>
 									
 								</dt>
-								<dd>Can be either an APEX page item ID selector or a statically defined value.</dd>
+								<dd>Can be either an APEX page item ID selector or a fixed value.</dd>
 							
 							</dl>
 						
@@ -526,7 +578,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{String}</span> The value of the page item or the statically defined value.</dd>
+								<dd><span class="light fixedFont">{String}</span> The value of a page item or a fixed value.</dd>
 							
 							</dl>
 						
@@ -558,7 +610,7 @@ ul.inheritsList
 									<span class="light fixedFont">{String}</span> <b>pVal</b>
 									
 								</dt>
-								<dd>The value which you want to trim.</dd>
+								<dd>The value to be trimmed.</dd>
 							
 							</dl>
 						
@@ -569,7 +621,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{String}</span> The trimmed value.</dd>
+								<dd><span class="light fixedFont">{String}</span> The trimmed value of pVal.</dd>
 							
 							</dl>
 						
@@ -590,7 +642,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2 on Tue Jul 16 2013 19:57:52 GMT+0200 (CEST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2 on Sun Jul 21 2013 16:33:59 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

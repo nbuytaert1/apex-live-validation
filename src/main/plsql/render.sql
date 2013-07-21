@@ -113,8 +113,8 @@ begin
       } else {
         // FORM VALIDATION
 
-        $(action.attribute05).alv("validateForm", {
-          formSubmitElems: action.attribute07,
+        $(action.attribute07).alv("validateForm", {
+          formsToSubmit: action.attribute05,
           errorMsg: action.attribute14
         });
       }

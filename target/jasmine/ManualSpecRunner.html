@@ -3368,10 +3368,11 @@
     return spec.getFullName().indexOf(paramMap.spec) === 0;
   };
   </script>
+  <script type="text/javascript" src="/src/main/lib/jasmine-fixture-1.0.5/jasmine-fixture.js"></script>
   <script type="text/javascript" src="/src/main/lib/jquery-1.10.2/jquery.js"></script>
   <script type="text/javascript" src="src/jquery.alv.js"></script>
   <script type="text/javascript" src="spec/alv.util.spec.js"></script>
-  <script type="text/javascript" src="spec/alv.validators.spec.js"></script>
+  <script type="text/javascript" src="spec/jquery.alv.spec.js"></script>
 
 </head>
 <body>
@@ -3381,15 +3382,15 @@
     }
 
     var executeJasmineSpecs = function(){
-      window.reporter = new jasmine.JsApiReporter(); jasmine.getEnv().addReporter(reporter);
-      if ('JsApiReporter' == 'HtmlReporter') {
+      window.reporter = new jasmine.HtmlReporter(); jasmine.getEnv().addReporter(reporter);
+      if ('HtmlReporter' == 'HtmlReporter') {
         jasmine.getEnv().specFilter = function(spec) {
           return window.reporter.specFilter(spec);
         };
       }
 
 	  //Don't do live updates when running through HTMLUnit
-      if ('JsApiReporter' == 'JsApiReporter'){
+      if ('HtmlReporter' == 'JsApiReporter'){
 		jasmine.getEnv().updateInterval = Number.MAX_VALUE;
       }
 

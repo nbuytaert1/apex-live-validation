@@ -586,7 +586,7 @@ alv.validators = {
 
             if (allowValidation(this, constants.equalClass)) {
                 if (validators.minLength(this.value, settings.validationMinLength)) {
-                    if (!validators.isEqual(this.value, $('#' + settings.equal).val()) && util.getConditionResult(settings.condition)) {
+                    if (!validators.isEqual(this.value, $(settings.equal).val()) && util.getConditionResult(settings.condition)) {
                         setValidationResult(this, constants.equalClass, false);
                         showMessage(this, equalMsg);
                     } else {

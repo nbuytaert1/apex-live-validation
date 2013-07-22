@@ -68,7 +68,7 @@ begin
   end if;
   l_render_result.attribute_10 := nvl(l_minimum_item, l_minimum);
   l_render_result.attribute_11 := nvl(l_maximum_item, l_maximum);
-  l_render_result.attribute_12 := l_equal;
+  l_render_result.attribute_12 := lco_jquery_id_selector || l_equal;
   l_render_result.attribute_13 := l_regex;
   l_render_result.attribute_14 := l_error_msg;
   l_render_result.attribute_15 := l_error_msg_location;

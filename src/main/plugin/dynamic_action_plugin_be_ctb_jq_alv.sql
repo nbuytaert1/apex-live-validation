@@ -2,7 +2,7 @@ set define off
 set verify off
 set feedback off
 WHENEVER SQLERROR EXIT SQL.SQLCODE ROLLBACK
-begin wwv_flow.g_import_in_progress := true; end;
+begin wwv_flow.g_import_in_progress := true; end; 
 /
  
 --       AAAA       PPPPP   EEEEEE  XX      XX
@@ -16,8 +16,8 @@ prompt  Set Credentials...
  
 begin
  
-  -- Assumes you are running the script connected to SQL*Plus as the Oracle user APEX_040200 or as the owner (parsing schema) of the application.
-  wwv_flow_api.set_security_group_id(p_security_group_id=>nvl(wwv_flow_application_install.get_workspace_id,55691954624826792581));
+  -- Assumes you are running the script connected to SQL*Plus as the Oracle user APEX_040100 or as the owner (parsing schema) of the application.
+  wwv_flow_api.set_security_group_id(p_security_group_id=>nvl(wwv_flow_application_install.get_workspace_id,4874412498142333));
  
 end;
 /
@@ -43,7 +43,7 @@ prompt  Check Compatibility...
 begin
  
 -- This date identifies the minimum version required to import this file.
-wwv_flow_api.set_version(p_version_yyyy_mm_dd=>'2012.01.01');
+wwv_flow_api.set_version(p_version_yyyy_mm_dd=>'2011.02.12');
  
 end;
 /
@@ -53,18 +53,8 @@ prompt  Set Application ID...
 begin
  
    -- SET APPLICATION ID
-   wwv_flow.g_flow_id := nvl(wwv_flow_application_install.get_application_id,59381);
+   wwv_flow.g_flow_id := nvl(wwv_flow_application_install.get_application_id,100);
    wwv_flow_api.g_id_offset := nvl(wwv_flow_application_install.get_offset,0);
-null;
- 
-end;
-/
-
-prompt  ...ui types
---
- 
-begin
- 
 null;
  
 end;
@@ -77,13 +67,12 @@ prompt  ...plugins
 begin
  
 wwv_flow_api.create_plugin (
-  p_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+  p_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
  ,p_plugin_type => 'DYNAMIC ACTION'
  ,p_name => 'BE.CTB.JQ.ALV'
  ,p_display_name => 'Live Validation'
  ,p_category => 'COMPONENT'
- ,p_supported_ui_types => 'DESKTOP:JQM_SMARTPHONE'
  ,p_image_prefix => '#PLUGIN_PREFIX#'
  ,p_plsql_code => 
 'function render(p_dynamic_action in apex_plugin.t_dynamic_action'||unistr('\000a')||
@@ -93,20 +82,20 @@ wwv_flow_api.create_plugin (
 '  lco_page_item_separator constant char := '','';'||unistr('\000a')||
 ''||unistr('\000a')||
 '  l_validation           varchar2(4000) := p_dynamic_action.attribute_01;'||unistr('\000a')||
-'  l_items_to_validate    varchar2(4000) := p_dynamic_'||
+'  l_item_type            varchar2(4000) := p_dynamic_'||
 'action.attribute_02;'||unistr('\000a')||
-'  l_triggering_event     varchar2(4000) := p_dynamic_action.attribute_03;'||unistr('\000a')||
-'  l_condition            varchar2(4000) := p_dynamic_action.attribute_04;'||unistr('\000a')||
-'  l_form_to_validate     varchar2(4000) := p_dynamic_action.attribute_05;'||unistr('\000a')||
-'  l_item_type            varchar2(4000) := p_dynamic_action.attribute_06;'||unistr('\000a')||
-'  l_form_submit_elements varchar2(4000) := p_dynamic_action.attribute_07;'||unistr('\000a')||
+'  l_items_to_validate    varchar2(4000) := p_dynamic_action.attribute_03;'||unistr('\000a')||
+'  l_triggering_event     varchar2(4000) := p_dynamic_action.attribute_04;'||unistr('\000a')||
+'  l_condition            varchar2(4000) := p_dynamic_action.attribute_05;'||unistr('\000a')||
+'  l_equal                varchar2(4000) := p_dynamic_action.attribute_06;'||unistr('\000a')||
+'  l_regex                varchar2(4000) := p_dynamic_action.attribute_07;'||unistr('\000a')||
 '  l_minim'||
 'um_item         varchar2(4000) := p_dynamic_action.attribute_08;'||unistr('\000a')||
 '  l_maximum_item         varchar2(4000) := p_dynamic_action.attribute_09;'||unistr('\000a')||
 '  l_minimum              varchar2(4000) := p_dynamic_action.attribute_10;'||unistr('\000a')||
 '  l_maximum              varchar2(4000) := p_dynamic_action.attribute_11;'||unistr('\000a')||
-'  l_equal                varchar2(4000) := p_dynamic_action.attribute_12;'||unistr('\000a')||
-'  l_regex                varchar2(4000)'||
+'  l_forms_to_validate    varchar2(4000) := p_dynamic_action.attribute_12;'||unistr('\000a')||
+'  l_form_submit_elements varchar2(4000)'||
 ' := p_dynamic_action.attribute_13;'||unistr('\000a')||
 '  l_error_msg            varchar2(4000) := p_dynamic_action.attribute_14;'||unistr('\000a')||
 '  l_error_msg_location   varchar2(4000) := p_dynamic_action.attribute_15;'||unistr('\000a')||
@@ -151,11 +140,11 @@ wwv_flow_api.create_plugin (
 '  l_render_result.attribute_02 := l_items_to_validate;'||unistr('\000a')||
 '  l_render_result.attribute_03 := l_triggering_event;'||unistr('\000a')||
 '  l_render_result.attribute_04 := l_condition;'||unistr('\000a')||
-'  l_render_result.attribute_05 := l_form_to_validate;'||unistr('\000a')||
+'  l_render_result.attribute_05 := l_forms_to_validate;'||unistr('\000a')||
 '  l_render_result.attribute_06 := l_item_type;'||unistr('\000a')||
 '  l_render_result.attribute_07 := l_form_submit_elements;'||unistr('\000a')||
-'  if l_minimum_item '||
-'is not null then'||unistr('\000a')||
+'  if l_minimum_item'||
+' is not null then'||unistr('\000a')||
 '    l_minimum_item := lco_jquery_id_selector || l_minimum_item;'||unistr('\000a')||
 '  end if;'||unistr('\000a')||
 '  if l_maximum_item is not null then'||unistr('\000a')||
@@ -163,8 +152,8 @@ wwv_flow_api.create_plugin (
 '  end if;'||unistr('\000a')||
 '  l_render_result.attribute_10 := nvl(l_minimum_item, l_minimum);'||unistr('\000a')||
 '  l_render_result.attribute_11 := nvl(l_maximum_item, l_maximum);'||unistr('\000a')||
-'  l_render_result.attribute_12 := lco_jquery_id_selector || l_equa'||
-'l;'||unistr('\000a')||
+'  l_render_result.attribute_12 := lco_jquery_id_selector || l_equ'||
+'al;'||unistr('\000a')||
 '  l_render_result.attribute_13 := l_regex;'||unistr('\000a')||
 '  l_render_result.attribute_14 := l_error_msg;'||unistr('\000a')||
 '  l_render_result.attribute_15 := l_error_msg_location;'||unistr('\000a')||
@@ -178,8 +167,8 @@ wwv_flow_api.create_plugin (
 '      // error message'||unistr('\000a')||
 '      if (!action.attribute14) { action.attribute14 = ""; }'||unistr('\000a')||
 ''||unistr('\000a')||
-'      if ('||
-'action.attribute01 !== "form") {'||unistr('\000a')||
+'      if '||
+'(action.attribute01 !== "form") {'||unistr('\000a')||
 '        // ITEM VALIDATION'||unistr('\000a')||
 ''||unistr('\000a')||
 '        // allow whitespace'||unistr('\000a')||
@@ -191,8 +180,8 @@ wwv_flow_api.create_plugin (
 '        if (!action.attribute04) { action.attribute04 = ""; }'||unistr('\000a')||
 '        // min and max'||unistr('\000a')||
 '        if (!action.attribute10) { action.attribute10 = ""; }'||unistr('\000a')||
-'    '||
-'    if (!action.attribute11) { action.attribute11 = ""; }'||unistr('\000a')||
+'   '||
+'     if (!action.attribute11) { action.attribute11 = ""; }'||unistr('\000a')||
 ''||unistr('\000a')||
 '        $(action.attribute02).alv({'||unistr('\000a')||
 '          validate: action.attribute01,'||unistr('\000a')||
@@ -202,8 +191,8 @@ wwv_flow_api.create_plugin (
 '          errorMsgLocation: action.attribute15,'||unistr('\000a')||
 '          allowWhitespace: l_allowWhitespace,'||unistr('\000a')||
 '          itemType: action.attribute06,'||unistr('\000a')||
-'   '||
-'       dateFormat: "'' || l_date_format || ''",'||unistr('\000a')||
+'  '||
+'        dateFormat: "'' || l_date_format || ''",'||unistr('\000a')||
 '          min: action.attribute10,'||unistr('\000a')||
 '          max: action.attribute11,'||unistr('\000a')||
 '          equal: action.attribute12,'||unistr('\000a')||
@@ -216,8 +205,8 @@ wwv_flow_api.create_plugin (
 '          formsToSubmit: action.attribute05,'||unistr('\000a')||
 '          errorMsg: action.attribute14'||unistr('\000a')||
 '        });'||unistr('\000a')||
-'      }'||unistr('\000a')||
-''||
+'      }'||
+''||unistr('\000a')||
 '    }'||unistr('\000a')||
 '  '';'||unistr('\000a')||
 ''||unistr('\000a')||
@@ -226,14 +215,13 @@ wwv_flow_api.create_plugin (
  ,p_render_function => 'render'
  ,p_standard_attributes => 'STOP_EXECUTION_ON_ERROR'
  ,p_substitute_attributes => true
- ,p_subscribe_plugin_settings => true
  ,p_version_identifier => '1.0'
  ,p_about_url => 'http://apex.oracle.com/pls/apex/f?p=59381:1'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+  p_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 1
  ,p_display_sequence => 10
@@ -245,162 +233,227 @@ wwv_flow_api.create_plugin_attribute (
  ,p_help_text => 'Select the type of validation you want to perform.'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360126995846071147 + wwv_flow_api.g_id_offset
+  p_id => 1414302922501116 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 10
  ,p_display_value => 'Required'
  ,p_return_value => 'notEmpty'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69342188560568533573 + wwv_flow_api.g_id_offset
+  p_id => 1418610541503269 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 15
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 20
  ,p_display_value => 'Required (Trim Whitespace)'
  ,p_return_value => 'notBlank'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360127412845108808 + wwv_flow_api.g_id_offset
+  p_id => 1422916774505200 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 20
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 30
  ,p_display_value => 'Item Type'
  ,p_return_value => 'itemType'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360130414084852888 + wwv_flow_api.g_id_offset
+  p_id => 1427221276506451 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 30
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 40
  ,p_display_value => 'Equality'
  ,p_return_value => 'equal'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360130811927853929 + wwv_flow_api.g_id_offset
+  p_id => 1431525432507591 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 40
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 50
  ,p_display_value => 'Match Regex'
  ,p_return_value => 'regex'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360131209555855082 + wwv_flow_api.g_id_offset
+  p_id => 1435830280509012 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 50
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 60
  ,p_display_value => 'Character Length'
  ,p_return_value => 'charLength'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360131604595857368 + wwv_flow_api.g_id_offset
+  p_id => 1472603877520336 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 60
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 70
  ,p_display_value => 'Number Size'
  ,p_return_value => 'numberSize'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360132000066859431 + wwv_flow_api.g_id_offset
+  p_id => 1476918422524521 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 70
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 80
  ,p_display_value => 'Date Order'
  ,p_return_value => 'dateOrder'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360132396615861046 + wwv_flow_api.g_id_offset
+  p_id => 1481221885525494 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 80
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 90
  ,p_display_value => 'Checkboxes'
  ,p_return_value => 'totalChecked'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69342170366168887618 + wwv_flow_api.g_id_offset
+  p_id => 1485528465527425 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 90
+ ,p_plugin_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 100
  ,p_display_value => 'Form'
  ,p_return_value => 'form'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69360111813184186440 + wwv_flow_api.g_id_offset
+  p_id => 1497725526564442 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 2
+ ,p_display_sequence => 20
+ ,p_prompt => 'Item Type'
+ ,p_attribute_type => 'SELECT LIST'
+ ,p_is_required => true
+ ,p_default_value => 'number'
+ ,p_is_translatable => false
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_depending_on_condition_type => 'IN_LIST'
+ ,p_depending_on_expression => 'itemType'
+ ,p_help_text => 'Define what kind of item type validation should be applied.'
+  );
+wwv_flow_api.create_plugin_attr_value (
+  p_id => 1502129681565640 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_attribute_id => 1497725526564442 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 10
+ ,p_display_value => 'Number'
+ ,p_return_value => 'number'
+  );
+wwv_flow_api.create_plugin_attr_value (
+  p_id => 1506400030566577 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_attribute_id => 1497725526564442 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 20
+ ,p_display_value => 'Only Digits'
+ ,p_return_value => 'digit'
+  );
+wwv_flow_api.create_plugin_attr_value (
+  p_id => 1510702800567299 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_attribute_id => 1497725526564442 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 30
+ ,p_display_value => 'Alphanumeric'
+ ,p_return_value => 'alphanumeric'
+  );
+wwv_flow_api.create_plugin_attr_value (
+  p_id => 1515004878567998 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_attribute_id => 1497725526564442 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 40
+ ,p_display_value => 'Date'
+ ,p_return_value => 'date'
+  );
+wwv_flow_api.create_plugin_attr_value (
+  p_id => 1519307649568735 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_attribute_id => 1497725526564442 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 50
+ ,p_display_value => 'E-mail'
+ ,p_return_value => 'email'
+  );
+wwv_flow_api.create_plugin_attr_value (
+  p_id => 1523610073569439 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_attribute_id => 1497725526564442 + wwv_flow_api.g_id_offset
+ ,p_display_sequence => 60
+ ,p_display_value => 'URL'
+ ,p_return_value => 'url'
+  );
+wwv_flow_api.create_plugin_attribute (
+  p_id => 1535811589579300 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
+ ,p_attribute_scope => 'COMPONENT'
+ ,p_attribute_sequence => 3
  ,p_display_sequence => 30
  ,p_prompt => 'Page Item(s)'
  ,p_attribute_type => 'PAGE ITEMS'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'The page item(s) for which you want the above validation to apply. Separate multiple page items with a comma.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69360112199382192811 + wwv_flow_api.g_id_offset
+  p_id => 1544107218587551 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 3
+ ,p_attribute_sequence => 4
  ,p_display_sequence => 40
  ,p_prompt => 'Triggering Event'
  ,p_attribute_type => 'SELECT LIST'
  ,p_is_required => true
  ,p_default_value => 'blur'
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'Specify the JavaScript event that will cause the validation to fire.'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360112609721203289 + wwv_flow_api.g_id_offset
+  p_id => 1548510681588531 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360112199382192811 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 1544107218587551 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 10
  ,p_display_value => 'Blur'
  ,p_return_value => 'blur'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360232699362067469 + wwv_flow_api.g_id_offset
+  p_id => 1552815183589864 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360112199382192811 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 1544107218587551 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 20
  ,p_display_value => 'FocusOut'
  ,p_return_value => 'focusout'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360112997644208888 + wwv_flow_api.g_id_offset
+  p_id => 1557121070591533 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360112199382192811 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 1544107218587551 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 30
  ,p_display_value => 'Change'
  ,p_return_value => 'change'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360113388155213293 + wwv_flow_api.g_id_offset
+  p_id => 1561423841592383 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360112199382192811 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 1544107218587551 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 40
  ,p_display_value => 'KeyUp'
  ,p_return_value => 'keyup'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69475962571818410850 + wwv_flow_api.g_id_offset
+  p_id => 1573617392599946 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 4
+ ,p_attribute_sequence => 5
  ,p_display_sequence => 50
  ,p_prompt => 'Condition'
  ,p_attribute_type => 'TEXTAREA'
  ,p_is_required => false
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'Optionally specify a JavaScript expression to support conditional execution of your validation. The validation will fire when the expression evaluates to true.'||unistr('\000a')||
@@ -408,200 +461,33 @@ wwv_flow_api.create_plugin_attribute (
 'For example: $(''#P5_COUNTRY'').val() === "Belgium"'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69342180875042496547 + wwv_flow_api.g_id_offset
+  p_id => 1581919386619428 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
- ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 5
- ,p_display_sequence => 120
- ,p_prompt => 'Form'
- ,p_attribute_type => 'TEXT'
- ,p_is_required => true
- ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_depending_on_condition_type => 'IN_LIST'
- ,p_depending_on_expression => 'form'
- ,p_help_text => 'A jQuery selector to determine the form region(s) you want to validate before the page is submitted. Use a comma to separate multiple elements.'||unistr('\000a')||
-''||unistr('\000a')||
-'For example: #empForm,#deptForm'
-  );
-wwv_flow_api.create_plugin_attribute (
-  p_id => 69360134793922257266 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 6
- ,p_display_sequence => 20
- ,p_prompt => 'Item Type'
- ,p_attribute_type => 'SELECT LIST'
- ,p_is_required => true
- ,p_default_value => 'number'
- ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_depending_on_condition_type => 'IN_LIST'
- ,p_depending_on_expression => 'itemType'
- ,p_help_text => 'Define what kind of item type validation should be applied.'
-  );
-wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360135191765258259 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360134793922257266 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 10
- ,p_display_value => 'Number'
- ,p_return_value => 'number'
-  );
-wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360135588530259764 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360134793922257266 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 20
- ,p_display_value => 'Only Digits'
- ,p_return_value => 'digit'
-  );
-wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360136018710260995 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360134793922257266 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 30
- ,p_display_value => 'Alphanumeric'
- ,p_return_value => 'alphanumeric'
-  );
-wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360136416769261878 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360134793922257266 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 40
- ,p_display_value => 'Date'
- ,p_return_value => 'date'
-  );
-wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360136815044262640 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360134793922257266 + wwv_flow_api.g_id_offset
- ,p_display_sequence => 50
- ,p_display_value => 'E-mail'
- ,p_return_value => 'email'
-  );
-wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360137213966263192 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360134793922257266 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 60
- ,p_display_value => 'URL'
- ,p_return_value => 'url'
-  );
-wwv_flow_api.create_plugin_attribute (
-  p_id => 69342181888185505616 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
- ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 7
- ,p_display_sequence => 130
- ,p_prompt => 'Form Submit Element(s)'
- ,p_attribute_type => 'TEXT'
- ,p_is_required => true
- ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_depending_on_condition_type => 'IN_LIST'
- ,p_depending_on_expression => 'form'
- ,p_help_text => 'A jQuery selector to determine the buttons that submit the form. Use a comma to separate multiple elements.'||unistr('\000a')||
-''||unistr('\000a')||
-'For example: #createBtn,#saveBtn'
-  );
-wwv_flow_api.create_plugin_attribute (
-  p_id => 69360141700464694797 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
- ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 8
- ,p_display_sequence => 60
- ,p_prompt => 'Minimum Item'
- ,p_attribute_type => 'PAGE ITEM'
- ,p_is_required => false
- ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_depending_on_condition_type => 'IN_LIST'
- ,p_depending_on_expression => 'numberSize,dateOrder'
- ,p_help_text => 'The page item that contains the minimum value. Overrides the ''Minimum'' setting if filled in.'
-  );
-wwv_flow_api.create_plugin_attribute (
-  p_id => 69360142095504697064 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
- ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 9
- ,p_display_sequence => 70
- ,p_prompt => 'Maximum Item'
- ,p_attribute_type => 'PAGE ITEM'
- ,p_is_required => false
- ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_depending_on_condition_type => 'IN_LIST'
- ,p_depending_on_expression => 'numberSize,dateOrder'
- ,p_help_text => 'The page item that contains the maximum value. Overrides the ''Maximum'' setting if filled in.'
-  );
-wwv_flow_api.create_plugin_attribute (
-  p_id => 69360138016812474537 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
- ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 10
- ,p_display_sequence => 80
- ,p_prompt => 'Minimum'
- ,p_attribute_type => 'TEXT'
- ,p_is_required => false
- ,p_display_length => 30
- ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_depending_on_condition_type => 'IN_LIST'
- ,p_depending_on_expression => 'charLength,numberSize,dateOrder,totalChecked'
- ,p_help_text => 'A fixed minimum value. Gets overridden by the ''Minimum Item'' setting if filled in.'
-  );
-wwv_flow_api.create_plugin_attribute (
-  p_id => 69360138412930476312 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
- ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 11
- ,p_display_sequence => 90
- ,p_prompt => 'Maximum'
- ,p_attribute_type => 'TEXT'
- ,p_is_required => false
- ,p_display_length => 30
- ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
- ,p_depending_on_condition_type => 'IN_LIST'
- ,p_depending_on_expression => 'charLength,numberSize,dateOrder,totalChecked'
- ,p_help_text => 'A fixed maximum value. Gets overridden by the ''Maximum Item'' setting if filled in.'
-  );
-wwv_flow_api.create_plugin_attribute (
-  p_id => 69360142600403770828 + wwv_flow_api.g_id_offset
- ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
- ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 12
- ,p_display_sequence => 100
  ,p_prompt => 'Must Equal'
  ,p_attribute_type => 'PAGE ITEM'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'equal'
  ,p_help_text => 'Select the page item that you want the value to be equal to. Frequently used to validate that two password fields are equal.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69360142991129775050 + wwv_flow_api.g_id_offset
+  p_id => 1601910859626425 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
- ,p_attribute_sequence => 13
- ,p_display_sequence => 110
+ ,p_attribute_sequence => 7
+ ,p_display_sequence => 70
  ,p_prompt => 'Regex'
  ,p_attribute_type => 'TEXT'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'regex'
  ,p_help_text => 'This field allows specifying a regular expression that has to match the entered value.'||unistr('\000a')||
@@ -609,9 +495,111 @@ wwv_flow_api.create_plugin_attribute (
 'For example: #[A-Fa-f0-9]{6}'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69360143713268855988 + wwv_flow_api.g_id_offset
+  p_id => 1610232330632706 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
+ ,p_attribute_scope => 'COMPONENT'
+ ,p_attribute_sequence => 8
+ ,p_display_sequence => 80
+ ,p_prompt => 'Minimum Item'
+ ,p_attribute_type => 'PAGE ITEM'
+ ,p_is_required => false
+ ,p_is_translatable => false
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_depending_on_condition_type => 'IN_LIST'
+ ,p_depending_on_expression => 'numberSize,dateOrder'
+ ,p_help_text => 'The page item that contains the minimum value. Overrides the ''Minimum'' setting if filled in.'
+  );
+wwv_flow_api.create_plugin_attribute (
+  p_id => 1614617916637960 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
+ ,p_attribute_scope => 'COMPONENT'
+ ,p_attribute_sequence => 9
+ ,p_display_sequence => 90
+ ,p_prompt => 'Maximum Item'
+ ,p_attribute_type => 'PAGE ITEM'
+ ,p_is_required => false
+ ,p_is_translatable => false
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_depending_on_condition_type => 'IN_LIST'
+ ,p_depending_on_expression => 'numberSize,dateOrder'
+ ,p_help_text => 'The page item that contains the maximum value. Overrides the ''Maximum'' setting if filled in.'
+  );
+wwv_flow_api.create_plugin_attribute (
+  p_id => 1634624505715571 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
+ ,p_attribute_scope => 'COMPONENT'
+ ,p_attribute_sequence => 10
+ ,p_display_sequence => 100
+ ,p_prompt => 'Minimum'
+ ,p_attribute_type => 'TEXT'
+ ,p_is_required => false
+ ,p_display_length => 30
+ ,p_is_translatable => false
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_depending_on_condition_type => 'IN_LIST'
+ ,p_depending_on_expression => 'charLength,numberSize,dateOrder,totalChecked'
+ ,p_help_text => 'A fixed minimum value. Gets overridden by the ''Minimum Item'' setting if filled in.'
+  );
+wwv_flow_api.create_plugin_attribute (
+  p_id => 1639019095723561 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
+ ,p_attribute_scope => 'COMPONENT'
+ ,p_attribute_sequence => 11
+ ,p_display_sequence => 110
+ ,p_prompt => 'Maximum'
+ ,p_attribute_type => 'TEXT'
+ ,p_is_required => false
+ ,p_display_length => 30
+ ,p_is_translatable => false
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_depending_on_condition_type => 'IN_LIST'
+ ,p_depending_on_expression => 'charLength,numberSize,dateOrder,totalChecked'
+ ,p_help_text => 'A fixed maximum value. Gets overridden by the ''Maximum Item'' setting if filled in.'
+  );
+wwv_flow_api.create_plugin_attribute (
+  p_id => 1647309183730127 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
+ ,p_attribute_scope => 'COMPONENT'
+ ,p_attribute_sequence => 12
+ ,p_display_sequence => 120
+ ,p_prompt => 'Form(s)'
+ ,p_attribute_type => 'TEXT'
+ ,p_is_required => true
+ ,p_is_translatable => false
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_depending_on_condition_type => 'IN_LIST'
+ ,p_depending_on_expression => 'form'
+ ,p_help_text => 'A jQuery selector to determine the form region(s) you want to validate before the page is submitted. Use a comma to separate multiple elements.'||unistr('\000a')||
+''||unistr('\000a')||
+'For example: #empForm,#deptForm'
+  );
+wwv_flow_api.create_plugin_attribute (
+  p_id => 1655630308736192 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
+ ,p_attribute_scope => 'COMPONENT'
+ ,p_attribute_sequence => 13
+ ,p_display_sequence => 130
+ ,p_prompt => 'Form Submit Element(s)'
+ ,p_attribute_type => 'TEXT'
+ ,p_is_required => true
+ ,p_is_translatable => false
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
+ ,p_depending_on_condition_type => 'IN_LIST'
+ ,p_depending_on_expression => 'form'
+ ,p_help_text => 'A jQuery selector to determine the buttons that submit the form. Use a comma to separate multiple elements.'||unistr('\000a')||
+''||unistr('\000a')||
+'For example: #createBtn,#saveBtn'
+  );
+wwv_flow_api.create_plugin_attribute (
+  p_id => 1663912431740617 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 14
  ,p_display_sequence => 140
@@ -622,9 +610,9 @@ wwv_flow_api.create_plugin_attribute (
  ,p_help_text => 'Specifying an error message overrides the default error message. Use &1, &2, &n for substitution values.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 69360144106367859186 + wwv_flow_api.g_id_offset
+  p_id => 1668329746745495 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 15
  ,p_display_sequence => 150
@@ -633,23 +621,23 @@ wwv_flow_api.create_plugin_attribute (
  ,p_is_required => true
  ,p_default_value => 'after'
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 69360126606414066172 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 1402027033498590 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'You can choose to show the error message before or after the input item.'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360144895584864194 + wwv_flow_api.g_id_offset
+  p_id => 1672703212747353 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360144106367859186 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 1668329746745495 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 10
  ,p_display_value => 'After Item'
  ,p_return_value => 'after'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 69360144498388862840 + wwv_flow_api.g_id_offset
+  p_id => 1677009099749087 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 69360144106367859186 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 1668329746745495 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 20
  ,p_display_value => 'Before Item'
  ,p_return_value => 'before'
@@ -687,9 +675,9 @@ end;
 begin
  
 wwv_flow_api.create_plugin_file (
-  p_id => 23372441210466506887 + wwv_flow_api.g_id_offset
+  p_id => 1689323685757762 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_file_name => 'style.alv.css'
  ,p_mime_type => 'text/css'
  ,p_file_content => wwv_flow_api.g_varchar2_table
@@ -866,11 +854,11 @@ end;
 begin
  
 wwv_flow_api.create_plugin_file (
-  p_id => 23372442408979508919 + wwv_flow_api.g_id_offset
+  p_id => 1697813334762597 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 90133455934278868091 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 1393917420476903 + wwv_flow_api.g_id_offset
  ,p_file_name => 'jquery.alv.js'
- ,p_mime_type => 'text/javascript'
+ ,p_mime_type => 'application/javascript'
  ,p_file_content => wwv_flow_api.g_varchar2_table
   );
 null;
@@ -879,11 +867,10 @@ end;
 /
 
 commit;
-begin
-execute immediate 'begin sys.dbms_session.set_nls( param => ''NLS_NUMERIC_CHARACTERS'', value => '''''''' || replace(wwv_flow_api.g_nls_numeric_chars,'''''''','''''''''''') || ''''''''); end;';
+begin 
+execute immediate 'begin dbms_session.set_nls( param => ''NLS_NUMERIC_CHARACTERS'', value => '''''''' || replace(wwv_flow_api.g_nls_numeric_chars,'''''''','''''''''''') || ''''''''); end;';
 end;
 /
 set verify on
 set feedback on
-set define on
 prompt  ...done

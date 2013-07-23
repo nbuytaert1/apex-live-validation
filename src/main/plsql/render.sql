@@ -5,18 +5,18 @@ return apex_plugin.t_dynamic_action_render_result is
   lco_page_item_separator constant char := ',';
 
   l_validation           varchar2(4000) := p_dynamic_action.attribute_01;
-  l_items_to_validate    varchar2(4000) := p_dynamic_action.attribute_02;
-  l_triggering_event     varchar2(4000) := p_dynamic_action.attribute_03;
-  l_condition            varchar2(4000) := p_dynamic_action.attribute_04;
-  l_form_to_validate     varchar2(4000) := p_dynamic_action.attribute_05;
-  l_item_type            varchar2(4000) := p_dynamic_action.attribute_06;
-  l_form_submit_elements varchar2(4000) := p_dynamic_action.attribute_07;
+  l_item_type            varchar2(4000) := p_dynamic_action.attribute_02;
+  l_items_to_validate    varchar2(4000) := p_dynamic_action.attribute_03;
+  l_triggering_event     varchar2(4000) := p_dynamic_action.attribute_04;
+  l_condition            varchar2(4000) := p_dynamic_action.attribute_05;
+  l_equal                varchar2(4000) := p_dynamic_action.attribute_06;
+  l_regex                varchar2(4000) := p_dynamic_action.attribute_07;
   l_minimum_item         varchar2(4000) := p_dynamic_action.attribute_08;
   l_maximum_item         varchar2(4000) := p_dynamic_action.attribute_09;
   l_minimum              varchar2(4000) := p_dynamic_action.attribute_10;
   l_maximum              varchar2(4000) := p_dynamic_action.attribute_11;
-  l_equal                varchar2(4000) := p_dynamic_action.attribute_12;
-  l_regex                varchar2(4000) := p_dynamic_action.attribute_13;
+  l_forms_to_validate    varchar2(4000) := p_dynamic_action.attribute_12;
+  l_form_submit_elements varchar2(4000) := p_dynamic_action.attribute_13;
   l_error_msg            varchar2(4000) := p_dynamic_action.attribute_14;
   l_error_msg_location   varchar2(4000) := p_dynamic_action.attribute_15;
 
@@ -57,7 +57,7 @@ begin
   l_render_result.attribute_02 := l_items_to_validate;
   l_render_result.attribute_03 := l_triggering_event;
   l_render_result.attribute_04 := l_condition;
-  l_render_result.attribute_05 := l_form_to_validate;
+  l_render_result.attribute_05 := l_forms_to_validate;
   l_render_result.attribute_06 := l_item_type;
   l_render_result.attribute_07 := l_form_submit_elements;
   if l_minimum_item is not null then

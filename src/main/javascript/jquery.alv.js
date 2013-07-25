@@ -19,6 +19,16 @@ alv.util = {
         return pVal.replace(/^\s+|\s+$/g, "");
     },
     /**
+     * @description Replace a character on position x within a given string.
+     * @param {String} pString The string that contains the character to be replaced.
+     * @param {Number} pIndex The position of the character that will be replaced.
+     * @param {String|Number} pChar The new character value.
+     * @returns {String} The string with one character replaced.
+     */
+    replaceCharInString: function (pString, pIndex, pChar) {
+        return pString.substr(0, pIndex) + pChar.toString() + pString.substr(pIndex + pChar.toString().length);
+    },
+    /**
      * @description Get the value of an APEX page item if an ID selector is passed as parameter, otherwise return the parameter value.
      * @param {String} pItem Can be either an APEX page item ID selector or a fixed value.
      * @returns {String} The value of a page item or a fixed value.
@@ -404,28 +414,31 @@ alv.validators = {
             'pluginName': "APEX Live Validation",
             'pluginPrefix': "alv",
 
-            'selector': this.selector,
-
             // apex related
             'apexCheckboxClass': 'checkbox_group',
             'apexRadioClass': 'radio_group',
             'apexShuttleClass': 'shuttle'
         };
         $.extend(constants, {
+            // element data keys
+            'validationEvents': constants.pluginPrefix + "-valEvents",
+            'validationResults': constants.pluginPrefix + "-valResults",
+            'origClickEvent': constants.pluginPrefix + "-origClickEvent",
+
             // validation identifiers
-            'notEmptyClass': constants.pluginPrefix + "-" + "notEmpty",
-            'itemTypeClass': constants.pluginPrefix + "-" + "itemType",
-            'equalClass': constants.pluginPrefix + "-" + "equal",
-            'regexClass': constants.pluginPrefix + "-" + "regex",
-            'charLengthClass': constants.pluginPrefix + "-" + "charLength",
-            'numberSizeClass': constants.pluginPrefix + "-" + "numberSize",
-            'dateOrderClass': constants.pluginPrefix + "-" + "dateOrder",
-            'totalCheckedClass': constants.pluginPrefix + "-" + "totalChecked",
+            'notEmptyClass': constants.pluginPrefix + "-notEmpty",
+            'itemTypeClass': constants.pluginPrefix + "-itemType",
+            'equalClass': constants.pluginPrefix + "-equal",
+            'regexClass': constants.pluginPrefix + "-regex",
+            'charLengthClass': constants.pluginPrefix + "-charLength",
+            'numberSizeClass': constants.pluginPrefix + "-numberSize",
+            'dateOrderClass': constants.pluginPrefix + "-dateOrder",
+            'totalCheckedClass': constants.pluginPrefix + "-totalChecked",
 
             // css classes
-            'itemErrorClass': 'alv-item-error',
-            'labelErrorClass': 'alv-label-error',
-            'errorMsgClass': 'alv-error-msg'
+            'itemErrorClass': constants.pluginPrefix + "-item-error",
+            'labelErrorClass': constants.pluginPrefix + "-label-error",
+            'errorMsgClass': constants.pluginPrefix + "-error-msg"
         });
 
         var settings = {
@@ -507,46 +520,70 @@ alv.validators = {
         });
 
         function init(element) {
+            var elem = $(element);
+            var elemSelector = '#' + elem.attr('id');
+            var bodyElem = $('body');
             var triggeringEvent = settings.triggeringEvent + '.' + constants.pluginPrefix;
             var changeEvent = 'change' + '.' + constants.pluginPrefix;
 
             switch (settings.validate) {
                 case 'notEmpty':
-                    if ($(element).hasClass(constants.apexCheckboxClass) ||
-                        $(element).hasClass(constants.apexRadioClass) ||
-                        $(element).hasClass(constants.apexShuttleClass) ||
-                        $(element).prop('tagName') === 'SELECT' ||
-                        $(element).attr('type') === 'file') {
+                    if (elem.hasClass(constants.apexCheckboxClass) ||
+                        elem.hasClass(constants.apexRadioClass) ||
+                        elem.hasClass(constants.apexShuttleClass) ||
+                        elem.prop('tagName') === 'SELECT' ||
+                        elem.attr('type') === 'file') {
                         if (settings.triggeringEvent !== 'change') {
                             triggeringEvent = triggeringEvent + ' ' + changeEvent;
                         }
                     }
-                    element.on(triggeringEvent, isEmptyHandler);
+                    bodyElem.delegate(elemSelector, triggeringEvent, isEmptyHandler);
                     break;
                 case 'itemType':
-                    element.on(triggeringEvent, itemTypeHandler);
+                    bodyElem.delegate(elemSelector, triggeringEvent, itemTypeHandler);
                     break;
                 case 'equal':
-                    element.on(triggeringEvent, isEqualHandler);
+                    bodyElem.delegate(elemSelector, triggeringEvent, isEqualHandler);
                     break;
                 case 'regex':
-                    element.on(triggeringEvent, regexHandler);
+                    bodyElem.delegate(elemSelector, triggeringEvent, regexHandler);
                     break;
                 case 'charLength':
-                    element.on(triggeringEvent, charLengthHandler);
+                    bodyElem.delegate(elemSelector, triggeringEvent, charLengthHandler);
                     break;
                 case 'numberSize':
-                    element.on(triggeringEvent, numberSizeHandler);
+                    bodyElem.delegate(elemSelector, triggeringEvent, numberSizeHandler);
                     break;
                 case 'dateOrder':
-                    element.on(triggeringEvent, dateOrderHandler);
+                    bodyElem.delegate(elemSelector, triggeringEvent, dateOrderHandler);
                     break;
                 case 'totalChecked':
-                    element.on(changeEvent, totalCheckedHandler);
+                    bodyElem.delegate(elemSelector, changeEvent, totalCheckedHandler);
                     break;
                 default:
             }
+
+            addValidationEvent(elem, triggeringEvent);
             return element;
+        }
+
+        function addValidationEvent(pElem, pEvent) {
+            var elem = $(pElem);
+            var elemValidationEvents = elem.data(constants.validationEvents);
+            var eventExists = false;
+
+            if (typeof elemValidationEvents !== "undefined") {
+                $.each(elemValidationEvents.split(" "), function (index, value) {
+                    if (value === pEvent) {
+                        eventExists = true;
+                    }
+                });
+                if (!eventExists) {
+                    elem.data(constants.validationEvents, elemValidationEvents + " " + pEvent);
+                }
+            } else {
+                elem.data(constants.validationEvents, pEvent);
+            }
         }
 
 
@@ -572,10 +609,10 @@ alv.validators = {
                 }
 
                 if (itemEmpty && util.getConditionResult(settings.condition)) {
-                    setValidationResult(this, constants.notEmptyClass, false);
+                    addValidationResult($(this), constants.notEmptyClass, "0");
                     showMessage(this, emptyMsg);
                 } else {
-                    setValidationResult(this, constants.notEmptyClass, true);
+                    addValidationResult($(this), constants.notEmptyClass, "1");
                     hideMessage(this);
                 }
             }
@@ -587,10 +624,10 @@ alv.validators = {
             if (allowValidation(this, constants.equalClass)) {
                 if (validators.minLength(this.value, settings.validationMinLength)) {
                     if (!validators.isEqual(this.value, $(settings.equal).val()) && util.getConditionResult(settings.condition)) {
-                        setValidationResult(this, constants.equalClass, false);
+                        addValidationResult($(this), constants.equalClass, "0");
                         showMessage(this, equalMsg);
                     } else {
-                        setValidationResult(this, constants.equalClass, true);
+                        addValidationResult($(this), constants.equalClass, "1");
                         hideMessage(this);
                     }
                 }
@@ -603,10 +640,10 @@ alv.validators = {
             if (allowValidation(this, constants.regexClass)) {
                 if (validators.minLength(this.value, settings.validationMinLength)) {
                     if (!validators.regex(this.value, settings.regex) && util.getConditionResult(settings.condition)) {
-                        setValidationResult(this, constants.regexClass, false);
+                        addValidationResult($(this), constants.regexClass, "0");
                         showMessage(this, regexMsg);
                     } else {
-                        setValidationResult(this, constants.regexClass, true);
+                        addValidationResult($(this), constants.regexClass, "1");
                         hideMessage(this);
                     }
                 }
@@ -648,10 +685,10 @@ alv.validators = {
                     }
 
                     if (!itemTypeOk && util.getConditionResult(settings.condition)) {
-                        setValidationResult(this, constants.itemTypeClass, false);
+                        addValidationResult($(this), constants.itemTypeClass, "0");
                         showMessage(this, itemTypeErrorMsg);
                     } else {
-                        setValidationResult(this, constants.itemTypeClass, true);
+                        addValidationResult($(this), constants.itemTypeClass, "1");
                         hideMessage(this);
                     }
                 }
@@ -676,10 +713,10 @@ alv.validators = {
                     }
 
                     if (!charLengthOk && util.getConditionResult(settings.condition)) {
-                        setValidationResult(this, constants.charLengthClass, false);
+                        addValidationResult($(this), constants.charLengthClass, "0");
                         showMessage(this, charLengthErrorMsg);
                     } else {
-                        setValidationResult(this, constants.charLengthClass, true);
+                        addValidationResult($(this), constants.charLengthClass, "1");
                         hideMessage(this);
                     }
                 }
@@ -707,10 +744,10 @@ alv.validators = {
                     }
 
                     if (!numberSizeOk && util.getConditionResult(settings.condition)) {
-                        setValidationResult(this, constants.numberSizeClass, false);
+                        addValidationResult($(this), constants.numberSizeClass, "0");
                         showMessage(this, numberSizeErrorMsg);
                     } else {
-                        setValidationResult(this, constants.numberSizeClass, true);
+                        addValidationResult($(this), constants.numberSizeClass, "1");
                         hideMessage(this);
                     }
                 }
@@ -735,10 +772,10 @@ alv.validators = {
                 }
 
                 if (!totalCheckedOk && util.getConditionResult(settings.condition)) {
-                    setValidationResult(this, constants.totalCheckedClass, false);
+                    addValidationResult($(this), constants.totalCheckedClass, "0");
                     showMessage(this, totalCheckedErrorMsg);
                 } else {
-                    setValidationResult(this, constants.totalCheckedClass, true);
+                    addValidationResult($(this), constants.totalCheckedClass, "1");
                     hideMessage(this);
                 }
             }
@@ -764,10 +801,10 @@ alv.validators = {
                     }
 
                     if (!dateOrderOk && util.getConditionResult(settings.condition)) {
-                        setValidationResult(this, constants.dateOrderClass, false);
+                        addValidationResult($(this), constants.dateOrderClass, "0");
                         showMessage(this, dateOrderErrorMsg);
                     } else {
-                        setValidationResult(this, constants.dateOrderClass, true);
+                        addValidationResult($(this), constants.dateOrderClass, "1");
                         hideMessage(this);
                     }
                 }
@@ -777,40 +814,40 @@ alv.validators = {
 
         // ERROR MESSAGE
         function showMessage(pElem, pMessage) {
-            var inputElem = $(pElem);
+            var elem = $(pElem);
             var errorMsgHtml = "<span class=\"" + constants.errorMsgClass + " " + pElem.id + "\">" + pMessage + "</span>";
 
-            if (inputElem.hasClass(constants.itemErrorClass)) {
+            if (elem.hasClass(constants.itemErrorClass)) {
                 var errorMsgElem = $('span.' + constants.errorMsgClass + '.' + pElem.id);
                 var errorMsgElemIndex = errorMsgElem.index();
-                var inputElemIndex = inputElem.index();
+                var elemIndex = elem.index();
 
-                if (errorMsgElemIndex < inputElemIndex && settings.errorMsgLocation === 'before') {
+                if (errorMsgElemIndex < elemIndex && settings.errorMsgLocation === 'before') {
                     errorMsgElem.text(pMessage);
-                } else if (errorMsgElemIndex < inputElemIndex && settings.errorMsgLocation === 'after') {
+                } else if (errorMsgElemIndex < elemIndex && settings.errorMsgLocation === 'after') {
                     errorMsgElem.remove();
-                    inputElem.after(errorMsgHtml);
-                } else if (errorMsgElemIndex > inputElemIndex && settings.errorMsgLocation === 'after') {
+                    elem.after(errorMsgHtml);
+                } else if (errorMsgElemIndex > elemIndex && settings.errorMsgLocation === 'after') {
                     errorMsgElem.text(pMessage);
                 } else {
                     errorMsgElem.remove();
-                    inputElem.before(errorMsgHtml);
+                    elem.before(errorMsgHtml);
                 }
             } else {
-                inputElem.addClass(constants.itemErrorClass);
+                elem.addClass(constants.itemErrorClass);
                 $('[for=' + pElem.id + ']').addClass(constants.labelErrorClass);
                 if (settings.errorMsgLocation === 'before') {
-                    inputElem.before(errorMsgHtml);
+                    elem.before(errorMsgHtml);
                 } else {
-                    inputElem.after(errorMsgHtml);
+                    elem.after(errorMsgHtml);
                 }
             }
         }
 
         function hideMessage(pElem) {
-            var inputElem = $(pElem);
-            if (inputElem.hasClass(constants.itemErrorClass)) {
-                inputElem.removeClass(constants.itemErrorClass);
+            var elem = $(pElem);
+            if (elem.hasClass(constants.itemErrorClass)) {
+                elem.removeClass(constants.itemErrorClass);
                 $('[for=' + pElem.id + ']').removeClass(constants.labelErrorClass);
                 $('span.' + constants.errorMsgClass + '.' + pElem.id).remove();
             }
@@ -833,59 +870,63 @@ alv.validators = {
 
 
         // ERROR CONTROL
-        function setValidationResult(pElem, pKey, pVal) {
-            $(pElem).data(pKey, pVal);
-        }
-
-        function keyExists(pElem, pKey) {
-            return typeof $(pElem).data(pKey) !== "undefined";
-        }
-
         function allowValidation(pElem, pKey) {
             var allowValidation = true;
-            var inputElem = $(pElem);
+            var elem = $(pElem);
+            var elemValidationResults = elem.data(constants.validationResults);
 
-            if (!keyExists(pElem, pKey)) {
-                $.each(inputElem.data(), function (key, val) {
-                    if (key.substring(0, 3) === constants.pluginPrefix) {
-                        if (allowValidation === true) {
-                            allowValidation = val;
+            if (typeof elemValidationResults !== "undefined") {
+                if (elemValidationResults.indexOf(pKey) === -1) {
+                    $.each(elemValidationResults.split(" "), function (index, value) {
+                        if (allowValidation === true && value.slice(-1) !== "1") {
+                            allowValidation = false;
                         }
-                    }
-                });
+                    });
+                } else {
+                    elem.removeData(constants.validationResults);
+                }
             } else {
-                $.each(inputElem.data(), function (key) {
-                    if (key.substring(0, 3) === constants.pluginPrefix) {
-                        inputElem.removeData(key);
-                    }
-                });
+                addValidationResult(pElem, pKey, "1");
             }
 
-            setValidationResult(pElem, pKey, true);
             return allowValidation;
+        }
+
+        function addValidationResult(pElem, pValidation, pResult) {
+            var elem = $(pElem);
+            var elemValidationResults = elem.data(constants.validationResults);
+            var resultExists = false;
+            var validationResult = pValidation + ":" + pResult;
+
+            if (typeof elemValidationResults !== "undefined") {
+                $.each(elemValidationResults.split(" "), function (index, value) {
+                    if (value.substr(0, value.indexOf(":")) === pValidation) {
+                        var resultIndex = elemValidationResults.indexOf(value) + value.length - 1;
+                        elemValidationResults = util.replaceCharInString(elemValidationResults, resultIndex, pResult);
+                        elem.data(constants.validationResults, elemValidationResults);
+                        resultExists = true;
+                    }
+                });
+                if (!resultExists) {
+                    elem.data(constants.validationResults, elemValidationResults + " " + validationResult);
+                }
+            } else {
+                elem.data(constants.validationResults, validationResult);
+            }
         }
 
 
         // FORM VALIDATION
         function formHasErrors(pForms) {
             var formHasErrors = false;
-            var forms = $(pForms);
-            var formElems = forms.find('input, textarea, select, fieldset');
             var formElem;
-            var formElemEvents;
-            var event;
+            var formElems = $(pForms).find('input, textarea, select, fieldset');
 
             $.each(formElems, function () {
                 formElem = $(this);
-                formElemEvents = formElem.data('events');
-                if (typeof formElemEvents !== "undefined") {
-                    $.each(formElemEvents, function (key) {
-                        event = key;
-                        $.each(this, function (key, value) {
-                            if (value.namespace === constants.pluginPrefix) {
-                                formElem.trigger(event + '.' + constants.pluginPrefix);
-                            }
-                        });
+                if (typeof formElem.data(constants.validationEvents) !== "undefined") {
+                    $.each(formElem.data(constants.validationEvents).split(" "), function (index, value) {
+                        formElem.trigger(value);
                     });
                 }
             });
@@ -900,29 +941,29 @@ alv.validators = {
 
         function validateFormBeforeSubmit(pFiringElem) {
             var firingElem = $(pFiringElem);
-            var origClickEventKey = constants.pluginPrefix + '-' + 'origClickEvent';
             var origClickEvent;
             var fixErrorsMsg = setMsg(settings.errorMsg, "Please fix all errors before continuing");
+            var bodyElem = $('body');
             var messageBoxId = "#alv-msg-box";
             var msgBox = '<div class="alv-alert-msg"><a href="#" class="alv-close" onclick="$(\'' + messageBoxId + '\').children().fadeOut();return false;">x</a><p>' + fixErrorsMsg + '</p></div>';
 
             if (firingElem.length) {
                 if (firingElem.prop('tagName') === 'BUTTON') {
                     origClickEvent = firingElem.attr('onclick');
-                    firingElem.data(origClickEventKey, origClickEvent);
+                    firingElem.data(constants.origClickEvent, origClickEvent);
                     firingElem.removeAttr('onclick');
                 } else {
                     origClickEvent = firingElem.attr('href');
-                    firingElem.data(origClickEventKey, origClickEvent);
+                    firingElem.data(constants.origClickEvent, origClickEvent);
                     firingElem.removeAttr('href');
                 }
 
-                firingElem.on('click', function () {
+                bodyElem.delegate('#' + firingElem.attr('id'), 'click', function () {
                     if (!formHasErrors(settings.formsToSubmit)) {
-                        eval($(this).data(origClickEventKey));
+                        eval($(this).data(constants.origClickEvent));
                     } else {
                         if (!$(messageBoxId).length) {
-                            $('body').append('<div id="' + messageBoxId.substring(1) + '"></div>');
+                            bodyElem.append('<div id="' + messageBoxId.substring(1) + '"></div>');
                         }
                         $(messageBoxId).html(msgBox);
                     }

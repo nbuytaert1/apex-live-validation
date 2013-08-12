@@ -22,4 +22,4 @@ Version 1.1.1
 
 ##Licence
 
-See LICENCE.md
+See LICENSE.md

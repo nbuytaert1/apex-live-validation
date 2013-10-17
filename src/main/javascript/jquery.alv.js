@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * @namespace The alv namespace.
  */
@@ -34,7 +32,7 @@ alv.util = {
      * @returns {String} The value of a page item or a fixed value.
      */
     getPageItemValue: function (pItem) {
-        if (pItem.substring(0, 2) === "#P") {
+        if (String(pItem).substring(0, 2) === "#P") {
             return $(pItem).val();
         }
         return pItem;
@@ -57,7 +55,7 @@ alv.util = {
      * @returns {Number|String} The numeric value of pVal or an empty string.
      */
     getNumberFromString: function (pVal) {
-        if (pVal.length) {
+        if (String(pVal).length) {
             return Number(pVal);
         }
         return "";
@@ -540,6 +538,11 @@ alv.validators = {
                     bodyElem.delegate(elemSelector, triggeringEvent, isEmptyHandler);
                     break;
                 case 'itemType':
+                    if (settings.itemType === 'date') {
+                        if (settings.triggeringEvent !== 'change') {
+                            triggeringEvent = triggeringEvent + ' ' + changeEvent;
+                        }
+                    }
                     bodyElem.delegate(elemSelector, triggeringEvent, itemTypeHandler);
                     break;
                 case 'equal':
@@ -555,6 +558,9 @@ alv.validators = {
                     bodyElem.delegate(elemSelector, triggeringEvent, numberSizeHandler);
                     break;
                 case 'dateOrder':
+                    if (settings.triggeringEvent !== 'change') {
+                        triggeringEvent = triggeringEvent + ' ' + changeEvent;
+                    }
                     bodyElem.delegate(elemSelector, triggeringEvent, dateOrderHandler);
                     break;
                 case 'totalChecked':
@@ -948,14 +954,14 @@ alv.validators = {
             var msgBox = '<div class="alv-alert-msg"><a href="#" class="alv-close" onclick="$(\'' + messageBoxId + '\').children().fadeOut();return false;">x</a><p>' + fixErrorsMsg + '</p></div>';
 
             if (firingElem.length) {
-                if (firingElem.prop('tagName') === "BUTTON" || firingElem.prop('tagName') === "INPUT") {
-                    origClickEvent = firingElem.attr('onclick');
-                    firingElem.data(constants.origClickEvent, origClickEvent);
-                    firingElem.removeAttr('onclick');
-                } else {
+                if (firingElem.prop('tagName') === "A") {
                     origClickEvent = firingElem.attr('href');
                     firingElem.data(constants.origClickEvent, origClickEvent);
                     firingElem.removeAttr('href');
+                } else {
+                    origClickEvent = firingElem.attr('onclick');
+                    firingElem.data(constants.origClickEvent, origClickEvent);
+                    firingElem.removeAttr('onclick');
                 }
 
                 bodyElem.delegate('#' + firingElem.attr('id'), 'click', function () {

@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>be.ctb.jq.alv</groupId>
   <artifactId>apex-live-validation</artifactId>
-  <version>1.0</version>
+  <version>1.2</version>
   <name>APEX Live Validation</name>
   <url>https://github.com/nbuytaert1/apex-live-validation</url>
   

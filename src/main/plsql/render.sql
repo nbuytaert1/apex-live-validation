@@ -79,20 +79,15 @@ begin
       var action = render.action;
       var l_allowWhitespace = true;
 
-      // error message
       if (!action.attribute14) { action.attribute14 = ""; }
 
       if (action.attribute01 !== "form") {
-        // ITEM VALIDATION
-
-        // allow whitespace
+        // item validation
         if (action.attribute01 === "notBlank") {
           action.attribute01 = "notEmpty";
           l_allowWhitespace = false;
         }
-        // condition
         if (!action.attribute04) { action.attribute04 = ""; }
-        // min and max
         if (!action.attribute10) { action.attribute10 = ""; }
         if (!action.attribute11) { action.attribute11 = ""; }
 
@@ -111,8 +106,7 @@ begin
           regex: action.attribute13
         });
       } else {
-        // FORM VALIDATION
-
+        // form validation
         $(action.attribute07).alv("validateForm", {
           formsToSubmit: action.attribute05,
           errorMsg: action.attribute14

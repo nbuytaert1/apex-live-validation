@@ -18,7 +18,7 @@ Here's a link to a [demo](http://apex.oracle.com/pls/apex/f?p=59381:100) page.
 
 ##Current Stable Version
 
-Version 1.1
+Version 1.2
 
 ##Licence
 

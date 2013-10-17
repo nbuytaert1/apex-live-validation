@@ -18,8 +18,16 @@ Here's a link to a [demo](http://apex.oracle.com/pls/apex/f?p=59381:100) page.
 
 ##Current Stable Version
 
+<<<<<<< HEAD
 Version 1.2
 
 ##Licence
 
 See LICENCE.md
+=======
+Version 1.1.1
+
+##Licence
+
+See LICENSE.md
+>>>>>>> 6c5e45e8221b01ca695b91eee33220c49ce78631

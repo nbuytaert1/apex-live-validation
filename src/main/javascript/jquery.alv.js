@@ -965,7 +965,9 @@ alv.validators = {
                 }
 
                 bodyElem.delegate('#' + firingElem.attr('id'), 'click', function () {
+                    var validateEvent = new Event('validated');
                     if (!formHasErrors(settings.formsToSubmit)) {
+                        firingElem.trigger('validated');
                         eval($(this).data(constants.origClickEvent));
                     } else {
                         if (!$(messageBoxId).length) {

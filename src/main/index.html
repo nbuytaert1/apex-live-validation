@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test ALV</title>
+
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="javascript/jquery.alv.js"></script>
+    <script>
+        $(function () {
+            $('#P100_REQUIRED').alv({
+                validate: 'notEmpty',
+                errorMsgLocation: 'after',
+                allowWhitespace: true,
+                itemSuccess: function () {
+                    alert('item success');
+                },
+                itemFail: function () {
+                    alert('item fail');
+                }
+            });
+
+            $('#submitBtn').alv('validateForm', {
+                formsToSubmit: '#deptForm',
+                formSuccess: function () {
+                    alert('form success');
+                },
+                formFail: function () {
+                    alert('form fail');
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<h2>Test ALV</h2>
+
+<div class="rounded-corner-region" id="deptForm">
+    <label class="control-label" for="P100_REQUIRED">Required&nbsp;
+        <abbr class="label-required" title="Required">*</abbr>
+    </label>
+    <input type="text" id="P100_REQUIRED" name="p_t01" required="" class="text_field" value="" size="30"
+           maxlength="4000">
+
+    <button value="Save" class="button-alt1" type="button" id="submitBtn" onclick="javascript:alert('refresh');">
+        <span>Save</span>
+    </button>
+</div>
+</body>
+</html>

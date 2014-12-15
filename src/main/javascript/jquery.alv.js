@@ -453,7 +453,11 @@ alv.validators = {
             'max': '',
             'equal': '',
             'regex': '',
-            'formsToSubmit': ''
+            'formsToSubmit': '',
+            'itemSuccess': function() {},
+            'itemFail': function() {},
+            'formSuccess': function() {},
+            'formFail': function() {}
         };
 
         var methods = {
@@ -891,8 +895,6 @@ alv.validators = {
                 } else {
                     elem.removeData(constants.validationResults);
                 }
-            } else {
-                addValidationResult(pElem, pKey, "1");
             }
 
             return allowValidation;
@@ -918,6 +920,14 @@ alv.validators = {
                 }
             } else {
                 elem.data(constants.validationResults, validationResult);
+            }
+
+            if (pResult === "1") {
+                settings.itemSuccess.call(this);
+                elem.trigger('alvitemsuccess');
+            } else {
+                settings.itemFail.call(this);
+                elem.trigger('alvitemfail');
             }
         }
 
@@ -965,11 +975,13 @@ alv.validators = {
                 }
 
                 bodyElem.delegate('#' + firingElem.attr('id'), 'click', function () {
-                    var validateEvent = new Event('validated');
                     if (!formHasErrors(settings.formsToSubmit)) {
-                        firingElem.trigger('validated');
+                        settings.formSuccess.call(this);
+                        firingElem.trigger('alvformsuccess');
                         eval($(this).data(constants.origClickEvent));
                     } else {
+                        settings.formFail.call(this);
+                        firingElem.trigger('alvformfail');
                         if (!$(messageBoxId).length) {
                             bodyElem.append('<div id="' + messageBoxId.substring(1) + '"></div>');
                         }

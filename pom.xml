@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>be.ctb.jq.alv</groupId>
   <artifactId>apex-live-validation</artifactId>
-  <version>1.2</version>
+  <version>1.3</version>
   <name>APEX Live Validation</name>
   <url>https://github.com/nbuytaert1/apex-live-validation</url>
-  
+
   <pluginRepositories>
     <pluginRepository>
       <id>uglifyjs-maven-plugin</id>
@@ -18,7 +18,7 @@
       <url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
     </pluginRepository>
   </pluginRepositories>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -46,7 +46,7 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>net.tqh.plugins</groupId>
         <artifactId>uglifyjs-maven-plugin</artifactId>
@@ -64,7 +64,7 @@
           </execution>
        </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>nl.windgazer</groupId>
         <artifactId>jsdoctk-plugin</artifactId>

@@ -11,14 +11,14 @@ The APEX plugin is built on top of a self made jQuery plugin that was created sp
 client-side validation handling in APEX. The minimum required version for the APEX plugin is 4.1.
 Older versions, however, can use the jQuery plugin instead.
 There is no difference between the end result of both plugin types,
-the jQuery plugin is just a bit less developer friendly. 
+the jQuery plugin is just a bit less developer friendly.
 
 Documentation, downloads, and other useful information can be found [here](http://apex.oracle.com/pls/apex/f?p=59381:1).
 Here's a link to a [demo](http://apex.oracle.com/pls/apex/f?p=59381:100) page.
 
 ##Current Stable Version
 
-Version 1.2
+Version 1.3
 
 ##License
 

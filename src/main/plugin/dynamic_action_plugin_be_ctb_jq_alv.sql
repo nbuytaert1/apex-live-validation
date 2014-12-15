@@ -67,7 +67,7 @@ prompt  ...plugins
 begin
  
 wwv_flow_api.create_plugin (
-  p_id => 4282442272578131 + wwv_flow_api.g_id_offset
+  p_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
  ,p_plugin_type => 'DYNAMIC ACTION'
  ,p_name => 'BE.CTB.JQ.ALV'
@@ -208,13 +208,13 @@ wwv_flow_api.create_plugin (
  ,p_render_function => 'render'
  ,p_standard_attributes => 'STOP_EXECUTION_ON_ERROR'
  ,p_substitute_attributes => true
- ,p_version_identifier => '1.2'
+ ,p_version_identifier => '1.3'
  ,p_about_url => 'http://apex.oracle.com/pls/apex/f?p=59381:1'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4290551885599818 + wwv_flow_api.g_id_offset
+  p_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 1
  ,p_display_sequence => 10
@@ -226,89 +226,89 @@ wwv_flow_api.create_plugin_attribute (
  ,p_help_text => 'Select the type of validation you want to perform.'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4302827774602344 + wwv_flow_api.g_id_offset
+  p_id => 15028344986834381 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 10
  ,p_display_value => 'Required'
  ,p_return_value => 'notEmpty'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4307135393604497 + wwv_flow_api.g_id_offset
+  p_id => 15032652605836534 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 20
  ,p_display_value => 'Required (Trim Whitespace)'
  ,p_return_value => 'notBlank'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4311441626606428 + wwv_flow_api.g_id_offset
+  p_id => 15036958838838465 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 30
  ,p_display_value => 'Item Type'
  ,p_return_value => 'itemType'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4315746128607679 + wwv_flow_api.g_id_offset
+  p_id => 15041263340839716 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 40
  ,p_display_value => 'Equality'
  ,p_return_value => 'equal'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4320050284608819 + wwv_flow_api.g_id_offset
+  p_id => 15045567496840856 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 50
  ,p_display_value => 'Match Regex'
  ,p_return_value => 'regex'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4324355132610240 + wwv_flow_api.g_id_offset
+  p_id => 15049872344842277 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 60
  ,p_display_value => 'Character Length'
  ,p_return_value => 'charLength'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4361128729621564 + wwv_flow_api.g_id_offset
+  p_id => 15086645941853601 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 70
  ,p_display_value => 'Number Size'
  ,p_return_value => 'numberSize'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4365443274625749 + wwv_flow_api.g_id_offset
+  p_id => 15090960486857786 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 80
  ,p_display_value => 'Date Order'
  ,p_return_value => 'dateOrder'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4369746737626722 + wwv_flow_api.g_id_offset
+  p_id => 15095263949858759 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 90
  ,p_display_value => 'Checkboxes'
  ,p_return_value => 'totalChecked'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4374053317628653 + wwv_flow_api.g_id_offset
+  p_id => 15099570529860690 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 100
  ,p_display_value => 'Form'
  ,p_return_value => 'form'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4386250378665670 + wwv_flow_api.g_id_offset
+  p_id => 15111767590897707 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 2
  ,p_display_sequence => 20
@@ -317,63 +317,63 @@ wwv_flow_api.create_plugin_attribute (
  ,p_is_required => true
  ,p_default_value => 'number'
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'itemType'
  ,p_help_text => 'Define what kind of item type validation should be applied.'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4390654533666868 + wwv_flow_api.g_id_offset
+  p_id => 15116171745898905 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4386250378665670 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15111767590897707 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 10
  ,p_display_value => 'Number'
  ,p_return_value => 'number'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4394924882667805 + wwv_flow_api.g_id_offset
+  p_id => 15120442094899842 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4386250378665670 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15111767590897707 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 20
  ,p_display_value => 'Only Digits'
  ,p_return_value => 'digit'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4399227652668527 + wwv_flow_api.g_id_offset
+  p_id => 15124744864900564 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4386250378665670 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15111767590897707 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 30
  ,p_display_value => 'Alphanumeric'
  ,p_return_value => 'alphanumeric'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4403529730669226 + wwv_flow_api.g_id_offset
+  p_id => 15129046942901263 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4386250378665670 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15111767590897707 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 40
  ,p_display_value => 'Date'
  ,p_return_value => 'date'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4407832501669963 + wwv_flow_api.g_id_offset
+  p_id => 15133349713902000 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4386250378665670 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15111767590897707 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 50
  ,p_display_value => 'E-mail'
  ,p_return_value => 'email'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4412134925670667 + wwv_flow_api.g_id_offset
+  p_id => 15137652137902704 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4386250378665670 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15111767590897707 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 60
  ,p_display_value => 'URL'
  ,p_return_value => 'url'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4424336441680528 + wwv_flow_api.g_id_offset
+  p_id => 15149853653912565 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 3
  ,p_display_sequence => 30
@@ -381,15 +381,15 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'PAGE ITEMS'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'The page item(s) for which you want the above validation to apply. Separate multiple page items with a comma.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4432632070688779 + wwv_flow_api.g_id_offset
+  p_id => 15158149282920816 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 4
  ,p_display_sequence => 40
@@ -398,47 +398,47 @@ wwv_flow_api.create_plugin_attribute (
  ,p_is_required => true
  ,p_default_value => 'blur'
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'Specify the JavaScript event that will cause the validation to fire.'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4437035533689759 + wwv_flow_api.g_id_offset
+  p_id => 15162552745921796 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4432632070688779 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15158149282920816 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 10
  ,p_display_value => 'Blur'
  ,p_return_value => 'blur'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4441340035691092 + wwv_flow_api.g_id_offset
+  p_id => 15166857247923129 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4432632070688779 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15158149282920816 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 20
  ,p_display_value => 'FocusOut'
  ,p_return_value => 'focusout'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4445645922692761 + wwv_flow_api.g_id_offset
+  p_id => 15171163134924798 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4432632070688779 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15158149282920816 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 30
  ,p_display_value => 'Change'
  ,p_return_value => 'change'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4449948693693611 + wwv_flow_api.g_id_offset
+  p_id => 15175465905925648 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4432632070688779 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15158149282920816 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 40
  ,p_display_value => 'KeyUp'
  ,p_return_value => 'keyup'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4462142244701174 + wwv_flow_api.g_id_offset
+  p_id => 15187659456933211 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 5
  ,p_display_sequence => 50
@@ -446,7 +446,7 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'TEXTAREA'
  ,p_is_required => false
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'Optionally specify a JavaScript expression to support conditional execution of your validation. The validation will fire when the expression evaluates to true.'||unistr('\000a')||
@@ -454,9 +454,9 @@ wwv_flow_api.create_plugin_attribute (
 'For example: $(''#P5_COUNTRY'').val() === "Belgium"'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4470444238720656 + wwv_flow_api.g_id_offset
+  p_id => 15195961450952693 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 6
  ,p_display_sequence => 60
@@ -464,15 +464,15 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'PAGE ITEM'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'equal'
  ,p_help_text => 'Select the page item that you want the value to be equal to. Frequently used to validate that two password fields are equal.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4490435711727653 + wwv_flow_api.g_id_offset
+  p_id => 15215952923959690 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 7
  ,p_display_sequence => 70
@@ -480,7 +480,7 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'TEXT'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'regex'
  ,p_help_text => 'This field allows specifying a regular expression that has to match the entered value.'||unistr('\000a')||
@@ -488,9 +488,9 @@ wwv_flow_api.create_plugin_attribute (
 'For example: #[A-Fa-f0-9]{6}'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4498757182733934 + wwv_flow_api.g_id_offset
+  p_id => 15224274394965971 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 8
  ,p_display_sequence => 80
@@ -498,15 +498,15 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'PAGE ITEM'
  ,p_is_required => false
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'numberSize,dateOrder'
  ,p_help_text => 'The page item that contains the minimum value. Overrides the ''Minimum'' setting if filled in.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4503142768739188 + wwv_flow_api.g_id_offset
+  p_id => 15228659980971225 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 9
  ,p_display_sequence => 90
@@ -514,15 +514,15 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'PAGE ITEM'
  ,p_is_required => false
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'numberSize,dateOrder'
  ,p_help_text => 'The page item that contains the maximum value. Overrides the ''Maximum'' setting if filled in.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4523149357816799 + wwv_flow_api.g_id_offset
+  p_id => 15248666570048836 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 10
  ,p_display_sequence => 100
@@ -531,15 +531,15 @@ wwv_flow_api.create_plugin_attribute (
  ,p_is_required => false
  ,p_display_length => 30
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'charLength,numberSize,dateOrder,totalChecked'
  ,p_help_text => 'A fixed minimum value. Gets overridden by the ''Minimum Item'' setting if filled in.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4527543947824789 + wwv_flow_api.g_id_offset
+  p_id => 15253061160056826 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 11
  ,p_display_sequence => 110
@@ -548,15 +548,15 @@ wwv_flow_api.create_plugin_attribute (
  ,p_is_required => false
  ,p_display_length => 30
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'charLength,numberSize,dateOrder,totalChecked'
  ,p_help_text => 'A fixed maximum value. Gets overridden by the ''Maximum Item'' setting if filled in.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4535834035831355 + wwv_flow_api.g_id_offset
+  p_id => 15261351248063392 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 12
  ,p_display_sequence => 120
@@ -564,7 +564,7 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'TEXT'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'A jQuery selector to determine the form region(s) you want to validate before the page is submitted. Use a comma to separate multiple elements.'||unistr('\000a')||
@@ -572,9 +572,9 @@ wwv_flow_api.create_plugin_attribute (
 'For example: #empForm,#deptForm'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4544155160837420 + wwv_flow_api.g_id_offset
+  p_id => 15269672373069457 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 13
  ,p_display_sequence => 130
@@ -582,7 +582,7 @@ wwv_flow_api.create_plugin_attribute (
  ,p_attribute_type => 'TEXT'
  ,p_is_required => true
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'A jQuery ID selector to determine the buttons that submit the form. Use a comma to separate multiple elements.'||unistr('\000a')||
@@ -590,9 +590,9 @@ wwv_flow_api.create_plugin_attribute (
 'For example: #createBtn,#saveBtn'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4552437283841845 + wwv_flow_api.g_id_offset
+  p_id => 15277954496073882 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 14
  ,p_display_sequence => 140
@@ -603,9 +603,9 @@ wwv_flow_api.create_plugin_attribute (
  ,p_help_text => 'Specifying an error message overrides the default error message. Use &1, &2, &n for substitution values.'
   );
 wwv_flow_api.create_plugin_attribute (
-  p_id => 4556854598846723 + wwv_flow_api.g_id_offset
+  p_id => 15282371811078760 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_attribute_scope => 'COMPONENT'
  ,p_attribute_sequence => 15
  ,p_display_sequence => 150
@@ -614,26 +614,54 @@ wwv_flow_api.create_plugin_attribute (
  ,p_is_required => true
  ,p_default_value => 'after'
  ,p_is_translatable => false
- ,p_depending_on_attribute_id => 4290551885599818 + wwv_flow_api.g_id_offset
+ ,p_depending_on_attribute_id => 15016069097831855 + wwv_flow_api.g_id_offset
  ,p_depending_on_condition_type => 'NOT_IN_LIST'
  ,p_depending_on_expression => 'form'
  ,p_help_text => 'You can choose to show the error message before or after the input item.'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4561228064848581 + wwv_flow_api.g_id_offset
+  p_id => 15286745277080618 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4556854598846723 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15282371811078760 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 10
  ,p_display_value => 'After Item'
  ,p_return_value => 'after'
   );
 wwv_flow_api.create_plugin_attr_value (
-  p_id => 4565533951850315 + wwv_flow_api.g_id_offset
+  p_id => 15291051164082352 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_attribute_id => 4556854598846723 + wwv_flow_api.g_id_offset
+ ,p_plugin_attribute_id => 15282371811078760 + wwv_flow_api.g_id_offset
  ,p_display_sequence => 20
  ,p_display_value => 'Before Item'
  ,p_return_value => 'before'
+  );
+wwv_flow_api.create_plugin_event (
+  p_id => 10746216566260228 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
+ ,p_name => 'alvformfail'
+ ,p_display_name => 'Form Failure'
+  );
+wwv_flow_api.create_plugin_event (
+  p_id => 10741906523257337 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
+ ,p_name => 'alvformsuccess'
+ ,p_display_name => 'Form Success'
+  );
+wwv_flow_api.create_plugin_event (
+  p_id => 10737732365255347 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
+ ,p_name => 'alvitemfail'
+ ,p_display_name => 'Item Failure'
+  );
+wwv_flow_api.create_plugin_event (
+  p_id => 10733526478253685 + wwv_flow_api.g_id_offset
+ ,p_flow_id => wwv_flow.g_flow_id
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
+ ,p_name => 'alvitemsuccess'
+ ,p_display_name => 'Item Success'
   );
 null;
  
@@ -772,42 +800,46 @@ wwv_flow_api.g_varchar2_table(125) := '2874297B76617220733D242874293B732E6861734
 wwv_flow_api.g_varchar2_table(126) := '723D222B742E69642B225D22292E72656D6F7665436C61737328636F6E7374616E74732E6C6162656C4572726F72436C617373292C2428227370616E2E222B636F6E7374616E74732E6572726F724D7367436C6173732B222E222B742E6964292E72656D';
 wwv_flow_api.g_varchar2_table(127) := '6F76652829297D66756E6374696F6E207365744D736728742C73297B72657475726E2076616C696461746F72732E6973456D7074792874293F733A747D66756E6374696F6E207265706C6163654D7367566172732874297B666F722876617220733D742C';
 wwv_flow_api.g_varchar2_table(128) := '653D312C693D617267756D656E74732E6C656E6774683B693E653B652B2B29733D732E7265706C616365282226222B652C617267756D656E74735B655D293B72657475726E20737D66756E6374696F6E20616C6C6F7756616C69646174696F6E28742C73';
-wwv_flow_api.g_varchar2_table(129) := '297B76617220653D21302C693D242874292C613D692E6461746128636F6E7374616E74732E76616C69646174696F6E526573756C7473293B72657475726E2061213D3D766F696420303F612E696E6465784F662873293D3D3D2D313F242E656163682861';
-wwv_flow_api.g_varchar2_table(130) := '2E73706C697428222022292C66756E6374696F6E28742C73297B653D3D3D21302626732E736C696365282D3129213D3D223122262628653D2131297D293A692E72656D6F76654461746128636F6E7374616E74732E76616C69646174696F6E526573756C';
-wwv_flow_api.g_varchar2_table(131) := '7473293A61646456616C69646174696F6E526573756C7428742C732C223122292C657D66756E6374696F6E2061646456616C69646174696F6E526573756C7428742C732C65297B76617220693D242874292C613D692E6461746128636F6E7374616E7473';
-wwv_flow_api.g_varchar2_table(132) := '2E76616C69646174696F6E526573756C7473292C6E3D21312C723D732B223A222B653B61213D3D766F696420303F28242E6561636828612E73706C697428222022292C66756E6374696F6E28742C72297B696628722E73756273747228302C722E696E64';
-wwv_flow_api.g_varchar2_table(133) := '65784F6628223A2229293D3D3D73297B766172206C3D612E696E6465784F662872292B722E6C656E6774682D313B613D7574696C2E7265706C61636543686172496E537472696E6728612C6C2C65292C692E6461746128636F6E7374616E74732E76616C';
-wwv_flow_api.g_varchar2_table(134) := '69646174696F6E526573756C74732C61292C6E3D21307D7D292C6E7C7C692E6461746128636F6E7374616E74732E76616C69646174696F6E526573756C74732C612B2220222B7229293A692E6461746128636F6E7374616E74732E76616C69646174696F';
-wwv_flow_api.g_varchar2_table(135) := '6E526573756C74732C72297D66756E6374696F6E20666F726D4861734572726F72732874297B76617220732C653D21312C693D242874292E66696E642822696E7075742C2074657874617265612C2073656C6563742C206669656C6473657422293B7265';
-wwv_flow_api.g_varchar2_table(136) := '7475726E20242E6561636828692C66756E6374696F6E28297B733D242874686973292C732E6461746128636F6E7374616E74732E76616C69646174696F6E4576656E747329213D3D766F696420302626242E6561636828732E6461746128636F6E737461';
-wwv_flow_api.g_varchar2_table(137) := '6E74732E76616C69646174696F6E4576656E7473292E73706C697428222022292C66756E6374696F6E28742C65297B732E747269676765722865297D297D292C692E686173436C61737328636F6E7374616E74732E6974656D4572726F72436C61737329';
-wwv_flow_api.g_varchar2_table(138) := '262628242869292E66696C74657228222E222B636F6E7374616E74732E6974656D4572726F72436C617373292E666972737428292E666F63757328292C653D2130292C657D66756E6374696F6E2076616C6964617465466F726D4265666F72655375626D';
-wwv_flow_api.g_varchar2_table(139) := '69742870466972696E67456C656D297B76617220666972696E67456C656D3D242870466972696E67456C656D292C6F726967436C69636B4576656E742C6669784572726F72734D73673D7365744D73672873657474696E67732E6572726F724D73672C22';
-wwv_flow_api.g_varchar2_table(140) := '506C656173652066697820616C6C206572726F7273206265666F726520636F6E74696E75696E6722292C626F6479456C656D3D242822626F647922292C6D657373616765426F7849643D2223616C762D6D73672D626F78222C6D7367426F783D273C6469';
-wwv_flow_api.g_varchar2_table(141) := '7620636C6173733D22616C762D616C6572742D6D7367223E3C6120687265663D22232220636C6173733D22616C762D636C6F736522206F6E636C69636B3D2224285C27272B6D657373616765426F7849642B2227292E6368696C6472656E28292E666164';
-wwv_flow_api.g_varchar2_table(142) := '654F757428293B72657475726E2066616C73653B5C223E783C2F613E3C703E222B6669784572726F72734D73672B223C2F703E3C2F6469763E223B666972696E67456C656D2E6C656E677468262628666972696E67456C656D2E70726F7028227461674E';
-wwv_flow_api.g_varchar2_table(143) := '616D6522293D3D3D2241223F286F726967436C69636B4576656E743D666972696E67456C656D2E6174747228226872656622292C666972696E67456C656D2E6461746128636F6E7374616E74732E6F726967436C69636B4576656E742C6F726967436C69';
-wwv_flow_api.g_varchar2_table(144) := '636B4576656E74292C666972696E67456C656D2E72656D6F7665417474722822687265662229293A286F726967436C69636B4576656E743D666972696E67456C656D2E6174747228226F6E636C69636B22292C666972696E67456C656D2E646174612863';
-wwv_flow_api.g_varchar2_table(145) := '6F6E7374616E74732E6F726967436C69636B4576656E742C6F726967436C69636B4576656E74292C666972696E67456C656D2E72656D6F76654174747228226F6E636C69636B2229292C626F6479456C656D2E64656C6567617465282223222B66697269';
-wwv_flow_api.g_varchar2_table(146) := '6E67456C656D2E617474722822696422292C22636C69636B222C66756E6374696F6E28297B666F726D4861734572726F72732873657474696E67732E666F726D73546F5375626D6974293F2824286D657373616765426F784964292E6C656E6774687C7C';
-wwv_flow_api.g_varchar2_table(147) := '626F6479456C656D2E617070656E6428273C6469762069643D22272B6D657373616765426F7849642E737562737472696E672831292B27223E3C2F6469763E27292C24286D657373616765426F784964292E68746D6C286D7367426F7829293A6576616C';
-wwv_flow_api.g_varchar2_table(148) := '28242874686973292E6461746128636F6E7374616E74732E6F726967436C69636B4576656E7429297D29297D76617220636F6E7374616E74733D7B706C7567696E49643A2262652E6374622E6A712E616C76222C706C7567696E4E616D653A2241504558';
-wwv_flow_api.g_varchar2_table(149) := '204C6976652056616C69646174696F6E222C706C7567696E5072656669783A22616C76222C61706578436865636B626F78436C6173733A22636865636B626F785F67726F7570222C61706578526164696F436C6173733A22726164696F5F67726F757022';
-wwv_flow_api.g_varchar2_table(150) := '2C6170657853687574746C65436C6173733A2273687574746C65227D3B242E657874656E6428636F6E7374616E74732C7B76616C69646174696F6E4576656E74733A636F6E7374616E74732E706C7567696E5072656669782B222D76616C4576656E7473';
-wwv_flow_api.g_varchar2_table(151) := '222C76616C69646174696F6E526573756C74733A636F6E7374616E74732E706C7567696E5072656669782B222D76616C526573756C7473222C6F726967436C69636B4576656E743A636F6E7374616E74732E706C7567696E5072656669782B222D6F7269';
-wwv_flow_api.g_varchar2_table(152) := '67436C69636B4576656E74222C6E6F74456D707479436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6E6F74456D707479222C6974656D54797065436C6173733A636F6E7374616E74732E706C7567696E5072656669782B22';
-wwv_flow_api.g_varchar2_table(153) := '2D6974656D54797065222C657175616C436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D657175616C222C7265676578436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D7265676578222C636861';
-wwv_flow_api.g_varchar2_table(154) := '724C656E677468436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D636861724C656E677468222C6E756D62657253697A65436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6E756D62657253697A';
-wwv_flow_api.g_varchar2_table(155) := '65222C646174654F72646572436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D646174654F72646572222C746F74616C436865636B6564436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D746F74';
-wwv_flow_api.g_varchar2_table(156) := '616C436865636B6564222C6974656D4572726F72436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6974656D2D6572726F72222C6C6162656C4572726F72436C6173733A636F6E7374616E74732E706C7567696E5072656669';
-wwv_flow_api.g_varchar2_table(157) := '782B222D6C6162656C2D6572726F72222C6572726F724D7367436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6572726F722D6D7367227D293B7661722073657474696E67733D7B76616C69646174653A226E6F74456D7074';
-wwv_flow_api.g_varchar2_table(158) := '79222C74726967676572696E674576656E743A22626C7572222C636F6E646974696F6E3A22222C76616C69646174696F6E4D696E4C656E6774683A302C6572726F724D73673A22222C6572726F724D73674C6F636174696F6E3A226166746572222C616C';
-wwv_flow_api.g_varchar2_table(159) := '6C6F77576869746573706163653A21302C6974656D547970653A22222C64617465466F726D61743A22222C6D696E3A22222C6D61783A22222C657175616C3A22222C72656765783A22222C666F726D73546F5375626D69743A22227D2C6D6574686F6473';
-wwv_flow_api.g_varchar2_table(160) := '3D7B696E69743A66756E6374696F6E2874297B76617220733D242874686973293B62696E6453657474696E677328732C74292C696E69742873297D2C76616C6964617465466F726D3A66756E6374696F6E2874297B76617220733D242874686973293B62';
-wwv_flow_api.g_varchar2_table(161) := '696E6453657474696E677328732C74292C76616C6964617465466F726D4265666F72655375626D69742873297D2C72656D6F76653A66756E6374696F6E28297B76617220743D242874686973293B726573746F7265506C7567696E53657474696E677328';
-wwv_flow_api.g_varchar2_table(162) := '742926266D6574686F6428297D7D3B72657475726E20242874686973292E656163682866756E6374696F6E28297B72657475726E206D6574686F64735B6D6574686F645D3F6D6574686F64735B6D6574686F645D2E63616C6C28242874686973292C6F70';
-wwv_flow_api.g_varchar2_table(163) := '74696F6E73293A747970656F66206D6574686F64213D226F626A6563742226266D6574686F643F28242E6572726F7228224D6574686F6420222B6D6574686F642B2220646F6573206E6F74206578697374206F6E206A51756572792E20222B636F6E7374';
-wwv_flow_api.g_varchar2_table(164) := '616E74732E706C7567696E4E616D65292C2131293A6D6574686F64732E696E69742E63616C6C28242874686973292C6D6574686F64297D297D7D286A51756572792C616C762E7574696C2C616C762E76616C696461746F727329';
+wwv_flow_api.g_varchar2_table(129) := '297B76617220653D21302C693D242874292C613D692E6461746128636F6E7374616E74732E76616C69646174696F6E526573756C7473293B72657475726E2061213D3D766F69642030262628612E696E6465784F662873293D3D3D2D313F242E65616368';
+wwv_flow_api.g_varchar2_table(130) := '28612E73706C697428222022292C66756E6374696F6E28742C73297B653D3D3D21302626732E736C696365282D3129213D3D223122262628653D2131297D293A692E72656D6F76654461746128636F6E7374616E74732E76616C69646174696F6E526573';
+wwv_flow_api.g_varchar2_table(131) := '756C747329292C657D66756E6374696F6E2061646456616C69646174696F6E526573756C7428742C732C65297B76617220693D242874292C613D692E6461746128636F6E7374616E74732E76616C69646174696F6E526573756C7473292C6E3D21312C72';
+wwv_flow_api.g_varchar2_table(132) := '3D732B223A222B653B61213D3D766F696420303F28242E6561636828612E73706C697428222022292C66756E6374696F6E28742C72297B696628722E73756273747228302C722E696E6465784F6628223A2229293D3D3D73297B766172206C3D612E696E';
+wwv_flow_api.g_varchar2_table(133) := '6465784F662872292B722E6C656E6774682D313B613D7574696C2E7265706C61636543686172496E537472696E6728612C6C2C65292C692E6461746128636F6E7374616E74732E76616C69646174696F6E526573756C74732C61292C6E3D21307D7D292C';
+wwv_flow_api.g_varchar2_table(134) := '6E7C7C692E6461746128636F6E7374616E74732E76616C69646174696F6E526573756C74732C612B2220222B7229293A692E6461746128636F6E7374616E74732E76616C69646174696F6E526573756C74732C72292C653D3D3D2231223F287365747469';
+wwv_flow_api.g_varchar2_table(135) := '6E67732E6974656D537563636573732E63616C6C2874686973292C692E747269676765722822616C766974656D737563636573732229293A2873657474696E67732E6974656D4661696C2E63616C6C2874686973292C692E747269676765722822616C76';
+wwv_flow_api.g_varchar2_table(136) := '6974656D6661696C2229297D66756E6374696F6E20666F726D4861734572726F72732874297B76617220732C653D21312C693D242874292E66696E642822696E7075742C2074657874617265612C2073656C6563742C206669656C6473657422293B7265';
+wwv_flow_api.g_varchar2_table(137) := '7475726E20242E6561636828692C66756E6374696F6E28297B733D242874686973292C732E6461746128636F6E7374616E74732E76616C69646174696F6E4576656E747329213D3D766F696420302626242E6561636828732E6461746128636F6E737461';
+wwv_flow_api.g_varchar2_table(138) := '6E74732E76616C69646174696F6E4576656E7473292E73706C697428222022292C66756E6374696F6E28742C65297B732E747269676765722865297D297D292C692E686173436C61737328636F6E7374616E74732E6974656D4572726F72436C61737329';
+wwv_flow_api.g_varchar2_table(139) := '262628242869292E66696C74657228222E222B636F6E7374616E74732E6974656D4572726F72436C617373292E666972737428292E666F63757328292C653D2130292C657D66756E6374696F6E2076616C6964617465466F726D4265666F72655375626D';
+wwv_flow_api.g_varchar2_table(140) := '69742870466972696E67456C656D297B76617220666972696E67456C656D3D242870466972696E67456C656D292C6F726967436C69636B4576656E742C6669784572726F72734D73673D7365744D73672873657474696E67732E6572726F724D73672C22';
+wwv_flow_api.g_varchar2_table(141) := '506C656173652066697820616C6C206572726F7273206265666F726520636F6E74696E75696E6722292C626F6479456C656D3D242822626F647922292C6D657373616765426F7849643D2223616C762D6D73672D626F78222C6D7367426F783D273C6469';
+wwv_flow_api.g_varchar2_table(142) := '7620636C6173733D22616C762D616C6572742D6D7367223E3C6120687265663D22232220636C6173733D22616C762D636C6F736522206F6E636C69636B3D2224285C27272B6D657373616765426F7849642B2227292E6368696C6472656E28292E666164';
+wwv_flow_api.g_varchar2_table(143) := '654F757428293B72657475726E2066616C73653B5C223E783C2F613E3C703E222B6669784572726F72734D73672B223C2F703E3C2F6469763E223B666972696E67456C656D2E6C656E677468262628666972696E67456C656D2E70726F7028227461674E';
+wwv_flow_api.g_varchar2_table(144) := '616D6522293D3D3D2241223F286F726967436C69636B4576656E743D666972696E67456C656D2E6174747228226872656622292C666972696E67456C656D2E6461746128636F6E7374616E74732E6F726967436C69636B4576656E742C6F726967436C69';
+wwv_flow_api.g_varchar2_table(145) := '636B4576656E74292C666972696E67456C656D2E72656D6F7665417474722822687265662229293A286F726967436C69636B4576656E743D666972696E67456C656D2E6174747228226F6E636C69636B22292C666972696E67456C656D2E646174612863';
+wwv_flow_api.g_varchar2_table(146) := '6F6E7374616E74732E6F726967436C69636B4576656E742C6F726967436C69636B4576656E74292C666972696E67456C656D2E72656D6F76654174747228226F6E636C69636B2229292C626F6479456C656D2E64656C6567617465282223222B66697269';
+wwv_flow_api.g_varchar2_table(147) := '6E67456C656D2E617474722822696422292C22636C69636B222C66756E6374696F6E28297B666F726D4861734572726F72732873657474696E67732E666F726D73546F5375626D6974293F2873657474696E67732E666F726D4661696C2E63616C6C2874';
+wwv_flow_api.g_varchar2_table(148) := '686973292C666972696E67456C656D2E747269676765722822616C76666F726D6661696C22292C24286D657373616765426F784964292E6C656E6774687C7C626F6479456C656D2E617070656E6428273C6469762069643D22272B6D657373616765426F';
+wwv_flow_api.g_varchar2_table(149) := '7849642E737562737472696E672831292B27223E3C2F6469763E27292C24286D657373616765426F784964292E68746D6C286D7367426F7829293A2873657474696E67732E666F726D537563636573732E63616C6C2874686973292C666972696E67456C';
+wwv_flow_api.g_varchar2_table(150) := '656D2E747269676765722822616C76666F726D7375636365737322292C6576616C28242874686973292E6461746128636F6E7374616E74732E6F726967436C69636B4576656E742929297D29297D76617220636F6E7374616E74733D7B706C7567696E49';
+wwv_flow_api.g_varchar2_table(151) := '643A2262652E6374622E6A712E616C76222C706C7567696E4E616D653A2241504558204C6976652056616C69646174696F6E222C706C7567696E5072656669783A22616C76222C61706578436865636B626F78436C6173733A22636865636B626F785F67';
+wwv_flow_api.g_varchar2_table(152) := '726F7570222C61706578526164696F436C6173733A22726164696F5F67726F7570222C6170657853687574746C65436C6173733A2273687574746C65227D3B242E657874656E6428636F6E7374616E74732C7B76616C69646174696F6E4576656E74733A';
+wwv_flow_api.g_varchar2_table(153) := '636F6E7374616E74732E706C7567696E5072656669782B222D76616C4576656E7473222C76616C69646174696F6E526573756C74733A636F6E7374616E74732E706C7567696E5072656669782B222D76616C526573756C7473222C6F726967436C69636B';
+wwv_flow_api.g_varchar2_table(154) := '4576656E743A636F6E7374616E74732E706C7567696E5072656669782B222D6F726967436C69636B4576656E74222C6E6F74456D707479436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6E6F74456D707479222C6974656D';
+wwv_flow_api.g_varchar2_table(155) := '54797065436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6974656D54797065222C657175616C436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D657175616C222C7265676578436C6173733A63';
+wwv_flow_api.g_varchar2_table(156) := '6F6E7374616E74732E706C7567696E5072656669782B222D7265676578222C636861724C656E677468436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D636861724C656E677468222C6E756D62657253697A65436C6173733A';
+wwv_flow_api.g_varchar2_table(157) := '636F6E7374616E74732E706C7567696E5072656669782B222D6E756D62657253697A65222C646174654F72646572436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D646174654F72646572222C746F74616C436865636B6564';
+wwv_flow_api.g_varchar2_table(158) := '436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D746F74616C436865636B6564222C6974656D4572726F72436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6974656D2D6572726F72222C6C6162';
+wwv_flow_api.g_varchar2_table(159) := '656C4572726F72436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6C6162656C2D6572726F72222C6572726F724D7367436C6173733A636F6E7374616E74732E706C7567696E5072656669782B222D6572726F722D6D736722';
+wwv_flow_api.g_varchar2_table(160) := '7D293B7661722073657474696E67733D7B76616C69646174653A226E6F74456D707479222C74726967676572696E674576656E743A22626C7572222C636F6E646974696F6E3A22222C76616C69646174696F6E4D696E4C656E6774683A302C6572726F72';
+wwv_flow_api.g_varchar2_table(161) := '4D73673A22222C6572726F724D73674C6F636174696F6E3A226166746572222C616C6C6F77576869746573706163653A21302C6974656D547970653A22222C64617465466F726D61743A22222C6D696E3A22222C6D61783A22222C657175616C3A22222C';
+wwv_flow_api.g_varchar2_table(162) := '72656765783A22222C666F726D73546F5375626D69743A22222C6974656D537563636573733A66756E6374696F6E28297B7D2C6974656D4661696C3A66756E6374696F6E28297B7D2C666F726D537563636573733A66756E6374696F6E28297B7D2C666F';
+wwv_flow_api.g_varchar2_table(163) := '726D4661696C3A66756E6374696F6E28297B7D7D2C6D6574686F64733D7B696E69743A66756E6374696F6E2874297B76617220733D242874686973293B62696E6453657474696E677328732C74292C696E69742873297D2C76616C6964617465466F726D';
+wwv_flow_api.g_varchar2_table(164) := '3A66756E6374696F6E2874297B76617220733D242874686973293B62696E6453657474696E677328732C74292C76616C6964617465466F726D4265666F72655375626D69742873297D2C72656D6F76653A66756E6374696F6E28297B76617220743D2428';
+wwv_flow_api.g_varchar2_table(165) := '74686973293B726573746F7265506C7567696E53657474696E677328742926266D6574686F6428297D7D3B72657475726E20242874686973292E656163682866756E6374696F6E28297B72657475726E206D6574686F64735B6D6574686F645D3F6D6574';
+wwv_flow_api.g_varchar2_table(166) := '686F64735B6D6574686F645D2E63616C6C28242874686973292C6F7074696F6E73293A747970656F66206D6574686F64213D226F626A6563742226266D6574686F643F28242E6572726F7228224D6574686F6420222B6D6574686F642B2220646F657320';
+wwv_flow_api.g_varchar2_table(167) := '6E6F74206578697374206F6E206A51756572792E20222B636F6E7374616E74732E706C7567696E4E616D65292C2131293A6D6574686F64732E696E69742E63616C6C28242874686973292C6D6574686F64297D297D7D286A51756572792C616C762E7574';
+wwv_flow_api.g_varchar2_table(168) := '696C2C616C762E76616C696461746F727329';
 null;
  
 end;
@@ -817,9 +849,9 @@ end;
 begin
  
 wwv_flow_api.create_plugin_file (
-  p_id => 6436006840087378 + wwv_flow_api.g_id_offset
+  p_id => 10766312655301571 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_file_name => 'jquery.alv.js'
  ,p_mime_type => 'application/javascript'
  ,p_file_content => wwv_flow_api.g_varchar2_table
@@ -857,9 +889,9 @@ end;
 begin
  
 wwv_flow_api.create_plugin_file (
-  p_id => 6444504683088353 + wwv_flow_api.g_id_offset
+  p_id => 17170021895320390 + wwv_flow_api.g_id_offset
  ,p_flow_id => wwv_flow.g_flow_id
- ,p_plugin_id => 4282442272578131 + wwv_flow_api.g_id_offset
+ ,p_plugin_id => 15007959484810168 + wwv_flow_api.g_id_offset
  ,p_file_name => 'style.alv.css'
  ,p_mime_type => 'text/css'
  ,p_file_content => wwv_flow_api.g_varchar2_table

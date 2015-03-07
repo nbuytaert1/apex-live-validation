@@ -54,7 +54,7 @@ begin
   end if;
 
   l_render_result.attribute_01 := l_validation;
-  l_render_result.attribute_02 := l_items_to_validate;
+  l_render_result.attribute_02 := regexp_replace(l_items_to_validate, lco_page_item_separator || '$', '');
   l_render_result.attribute_03 := l_triggering_event;
   l_render_result.attribute_04 := l_condition;
   l_render_result.attribute_05 := l_forms_to_validate;

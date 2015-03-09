@@ -1,8 +1,6 @@
 function render(p_dynamic_action in apex_plugin.t_dynamic_action
               , p_plugin         in apex_plugin.t_plugin)
 return apex_plugin.t_dynamic_action_render_result is
-  lco_jquery_id_selector  constant char := '#';
-
   l_validation           varchar2(4000) := p_dynamic_action.attribute_01;
   l_item_type            varchar2(4000) := p_dynamic_action.attribute_02;
   l_items_to_validate    varchar2(4000) := p_dynamic_action.attribute_03;
@@ -38,8 +36,6 @@ begin
   from nls_session_parameters
   where parameter = 'NLS_DATE_FORMAT';
 
-  if l_validation != 'form' then
-
   l_render_result.attribute_01 := l_validation;
   l_render_result.attribute_02 := apex_plugin_util.page_item_names_to_jquery(l_items_to_validate);
   l_render_result.attribute_03 := l_triggering_event;
@@ -48,14 +44,14 @@ begin
   l_render_result.attribute_06 := l_item_type;
   l_render_result.attribute_07 := l_form_submit_elements;
   if l_minimum_item is not null then
-    l_minimum_item := lco_jquery_id_selector || l_minimum_item;
+    l_minimum_item := apex_plugin_util.page_item_names_to_jquery(l_minimum_item);
   end if;
   if l_maximum_item is not null then
-    l_maximum_item := lco_jquery_id_selector || l_maximum_item;
+    l_maximum_item := apex_plugin_util.page_item_names_to_jquery(l_maximum_item);
   end if;
   l_render_result.attribute_10 := nvl(l_minimum_item, l_minimum);
   l_render_result.attribute_11 := nvl(l_maximum_item, l_maximum);
-  l_render_result.attribute_12 := lco_jquery_id_selector || l_equal;
+  l_render_result.attribute_12 := apex_plugin_util.page_item_names_to_jquery(l_equal);
   l_render_result.attribute_13 := l_regex;
   l_render_result.attribute_14 := l_error_msg;
   l_render_result.attribute_15 := l_error_msg_location;

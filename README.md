@@ -20,6 +20,9 @@ Here's a link to a [demo](http://apex.oracle.com/pls/apex/f?p=59381:100) page.
 
 Version 1.3
 
+##Contributors
+* [Craig Steinberger](https://github.com/cjs)
+
 ##License
 
 See LICENSE.md

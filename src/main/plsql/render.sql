@@ -2,7 +2,6 @@ function render(p_dynamic_action in apex_plugin.t_dynamic_action
               , p_plugin         in apex_plugin.t_plugin)
 return apex_plugin.t_dynamic_action_render_result is
   lco_jquery_id_selector  constant char := '#';
-  lco_page_item_separator constant char := ',';
 
   l_validation           varchar2(4000) := p_dynamic_action.attribute_01;
   l_item_type            varchar2(4000) := p_dynamic_action.attribute_02;
@@ -21,8 +20,6 @@ return apex_plugin.t_dynamic_action_render_result is
   l_error_msg_location   varchar2(4000) := p_dynamic_action.attribute_15;
 
   l_date_format varchar2(4000);
-  l_tmp_items_to_validate apex_application_global.vc_arr2;
-
   l_render_result apex_plugin.t_dynamic_action_render_result;
 begin
   apex_javascript.add_library(
@@ -42,19 +39,9 @@ begin
   where parameter = 'NLS_DATE_FORMAT';
 
   if l_validation != 'form' then
-    l_tmp_items_to_validate := apex_util.string_to_table(
-                                 p_string    => l_items_to_validate,
-                                 p_separator => lco_page_item_separator
-                               );
-
-    l_items_to_validate := '';
-    for i in 1 .. l_tmp_items_to_validate.count loop
-      l_items_to_validate := l_items_to_validate || lco_jquery_id_selector || l_tmp_items_to_validate(i) || lco_page_item_separator;
-    end loop;
-  end if;
 
   l_render_result.attribute_01 := l_validation;
-  l_render_result.attribute_02 := regexp_replace(l_items_to_validate, lco_page_item_separator || '$', '');
+  l_render_result.attribute_02 := apex_plugin_util.page_item_names_to_jquery(l_items_to_validate);
   l_render_result.attribute_03 := l_triggering_event;
   l_render_result.attribute_04 := l_condition;
   l_render_result.attribute_05 := l_forms_to_validate;

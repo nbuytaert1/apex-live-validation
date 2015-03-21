@@ -78,42 +78,37 @@ wwv_flow_api.create_plugin (
 'function render(p_dynamic_action in apex_plugin.t_dynamic_action'||unistr('\000a')||
 '              , p_plugin         in apex_plugin.t_plugin)'||unistr('\000a')||
 'return apex_plugin.t_dynamic_action_render_result is'||unistr('\000a')||
-'  lco_jquery_id_selector  constant char := ''#'';'||unistr('\000a')||
-'  lco_page_item_separator constant char := '','';'||unistr('\000a')||
-''||unistr('\000a')||
 '  l_validation           varchar2(4000) := p_dynamic_action.attribute_01;'||unistr('\000a')||
-'  l_item_type            varchar2(4000) := p_dynamic_'||
-'action.attribute_02;'||unistr('\000a')||
+'  l_item_type            varchar2(4000) := p_dynamic_action.attribute_02;'||unistr('\000a')||
 '  l_items_to_validate    varchar2(4000) := p_dynamic_action.attribute_03;'||unistr('\000a')||
-'  l_triggering_event     varchar2(4000) := p_dynamic_action.attribute_04;'||unistr('\000a')||
+'  '||
+'l_triggering_event     varchar2(4000) := p_dynamic_action.attribute_04;'||unistr('\000a')||
 '  l_condition            varchar2(4000) := p_dynamic_action.attribute_05;'||unistr('\000a')||
 '  l_equal                varchar2(4000) := p_dynamic_action.attribute_06;'||unistr('\000a')||
 '  l_regex                varchar2(4000) := p_dynamic_action.attribute_07;'||unistr('\000a')||
-'  l_minim'||
-'um_item         varchar2(4000) := p_dynamic_action.attribute_08;'||unistr('\000a')||
-'  l_maximum_item         varchar2(4000) := p_dynamic_action.attribute_09;'||unistr('\000a')||
+'  l_minimum_item         varchar2(4000) := p_dynamic_action.attribute_08;'||unistr('\000a')||
+'  l_maximum_item         varchar'||
+'2(4000) := p_dynamic_action.attribute_09;'||unistr('\000a')||
 '  l_minimum              varchar2(4000) := p_dynamic_action.attribute_10;'||unistr('\000a')||
 '  l_maximum              varchar2(4000) := p_dynamic_action.attribute_11;'||unistr('\000a')||
 '  l_forms_to_validate    varchar2(4000) := p_dynamic_action.attribute_12;'||unistr('\000a')||
-'  l_form_submit_elements varchar2(4000)'||
-' := p_dynamic_action.attribute_13;'||unistr('\000a')||
-'  l_error_msg            varchar2(4000) := p_dynamic_action.attribute_14;'||unistr('\000a')||
+'  l_form_submit_elements varchar2(4000) := p_dynamic_action.attribute_13;'||unistr('\000a')||
+'  l_error_msg            varchar2(4000) := p_dynamic_action.at'||
+'tribute_14;'||unistr('\000a')||
 '  l_error_msg_location   varchar2(4000) := p_dynamic_action.attribute_15;'||unistr('\000a')||
 ''||unistr('\000a')||
 '  l_date_format varchar2(4000);'||unistr('\000a')||
-'  l_tmp_items_to_validate apex_application_global.vc_arr2;'||unistr('\000a')||
-''||unistr('\000a')||
 '  l_render_result apex_plugin.t_dynamic_action_render_result;'||unistr('\000a')||
 'begin'||unistr('\000a')||
 '  apex_javascript.add_library('||unistr('\000a')||
-'    p_name      => ''jquer'||
-'y.alv'','||unistr('\000a')||
+'    p_name      => ''jquery.alv'','||unistr('\000a')||
 '    p_directory => p_plugin.file_prefix,'||unistr('\000a')||
 '    p_version   => null'||unistr('\000a')||
 '  );'||unistr('\000a')||
 '  apex_css.add_file('||unistr('\000a')||
 '    p_name      => ''style.alv'','||unistr('\000a')||
-'    p_directory => p_plugin.file_prefix,'||unistr('\000a')||
+'    p_directory => p_plugi'||
+'n.file_prefix,'||unistr('\000a')||
 '    p_version   => null'||unistr('\000a')||
 '  );'||unistr('\000a')||
 ''||unistr('\000a')||
@@ -122,43 +117,30 @@ wwv_flow_api.create_plugin (
 '  from nls_session_parameters'||unistr('\000a')||
 '  where parameter = ''NLS_DATE_FORMAT'';'||unistr('\000a')||
 ''||unistr('\000a')||
-'  if l_validation != ''form'' then'||unistr('\000a')||
-'    l_tmp_items_to_validate := apex_util.string_to_table('||unistr('\000a')||
-' '||
-'                                p_string    => l_items_to_validate,'||unistr('\000a')||
-'                                 p_separator => lco_page_item_separator'||unistr('\000a')||
-'                               );'||unistr('\000a')||
-''||unistr('\000a')||
-'    l_items_to_validate := '''';'||unistr('\000a')||
-'    for i in 1 .. l_tmp_items_to_validate.count loop'||unistr('\000a')||
-'      l_items_to_validate := l_items_to_validate || lco_jquery_id_selector || l_tmp_items_to_validate(i) || lco_page_item_separator;'||unistr('\000a')||
-'    end '||
-'loop;'||unistr('\000a')||
-'  end if;'||unistr('\000a')||
-''||unistr('\000a')||
 '  l_render_result.attribute_01 := l_validation;'||unistr('\000a')||
-'  l_render_result.attribute_02 := l_items_to_validate;'||unistr('\000a')||
+'  l_render_result.attribute_02 := apex_plugin_util.page_item_names_to_jquery(l_items_to_validate);'||unistr('\000a')||
 '  l_render_result.attribute_03 := l_triggering_event;'||unistr('\000a')||
 '  l_render_result.attribute_04 := l_condition;'||unistr('\000a')||
-'  l_render_result.attribute_05 := l_forms_to_validate;'||unistr('\000a')||
+' '||
+' l_render_result.attribute_05 := l_forms_to_validate;'||unistr('\000a')||
 '  l_render_result.attribute_06 := l_item_type;'||unistr('\000a')||
 '  l_render_result.attribute_07 := l_form_submit_elements;'||unistr('\000a')||
-'  if l_minimum_item'||
-' is not null then'||unistr('\000a')||
-'    l_minimum_item := lco_jquery_id_selector || l_minimum_item;'||unistr('\000a')||
+'  if l_minimum_item is not null then'||unistr('\000a')||
+'    l_minimum_item := apex_plugin_util.page_item_names_to_jquery(l_minimum_item);'||unistr('\000a')||
 '  end if;'||unistr('\000a')||
 '  if l_maximum_item is not null then'||unistr('\000a')||
-'    l_maximum_item := lco_jquery_id_selector || l_maximum_item;'||unistr('\000a')||
+'    l_maximum_item := apex_plugin_util.page_item_names_to_jquery(l_maximum_'||
+'item);'||unistr('\000a')||
 '  end if;'||unistr('\000a')||
 '  l_render_result.attribute_10 := nvl(l_minimum_item, l_minimum);'||unistr('\000a')||
 '  l_render_result.attribute_11 := nvl(l_maximum_item, l_maximum);'||unistr('\000a')||
-'  l_render_result.attribute_12 := lco_jquery_id_selector || l_equ'||
-'al;'||unistr('\000a')||
+'  l_render_result.attribute_12 := apex_plugin_util.page_item_names_to_jquery(l_equal);'||unistr('\000a')||
 '  l_render_result.attribute_13 := l_regex;'||unistr('\000a')||
 '  l_render_result.attribute_14 := l_error_msg;'||unistr('\000a')||
 '  l_render_result.attribute_15 := l_error_msg_location;'||unistr('\000a')||
 ''||unistr('\000a')||
-'  l_render_result.javascript_function := '''||unistr('\000a')||
+'  l_render_result'||
+'.javascript_function := '''||unistr('\000a')||
 '    function() {'||unistr('\000a')||
 '      var render = this;'||unistr('\000a')||
 '      var action = render.action;'||unistr('\000a')||
@@ -166,36 +148,36 @@ wwv_flow_api.create_plugin (
 ''||unistr('\000a')||
 '      if (!action.attribute14) { action.attribute14 = ""; }'||unistr('\000a')||
 ''||unistr('\000a')||
-'      if (action.attribute01 !=='||
-' "form") {'||unistr('\000a')||
+'      if (action.attribute01 !== "form") {'||unistr('\000a')||
 '        // item validation'||unistr('\000a')||
 '        if (action.attribute01 === "notBlank") {'||unistr('\000a')||
 '          action.attribute01 = "notEmpty";'||unistr('\000a')||
 '          l_allowWhitespace = false;'||unistr('\000a')||
-'        }'||unistr('\000a')||
+' '||
+'       }'||unistr('\000a')||
 '        if (!action.attribute04) { action.attribute04 = ""; }'||unistr('\000a')||
 '        if (!action.attribute10) { action.attribute10 = ""; }'||unistr('\000a')||
 '        if (!action.attribute11) { action.attribute11 = ""; }'||unistr('\000a')||
 ''||unistr('\000a')||
 '        $(action.attribute02).alv({'||unistr('\000a')||
-''||
 '          validate: action.attribute01,'||unistr('\000a')||
 '          triggeringEvent: action.attribute03,'||unistr('\000a')||
 '          condition: action.attribute04,'||unistr('\000a')||
 '          errorMsg: action.attribute14,'||unistr('\000a')||
+''||
 '          errorMsgLocation: action.attribute15,'||unistr('\000a')||
 '          allowWhitespace: l_allowWhitespace,'||unistr('\000a')||
 '          itemType: action.attribute06,'||unistr('\000a')||
 '          dateFormat: "'' || l_date_format || ''",'||unistr('\000a')||
 '          min: action.attribute10,'||unistr('\000a')||
-'          max:'||
-' action.attribute11,'||unistr('\000a')||
+'          max: action.attribute11,'||unistr('\000a')||
 '          equal: action.attribute12,'||unistr('\000a')||
 '          regex: action.attribute13'||unistr('\000a')||
 '        });'||unistr('\000a')||
 '      } else {'||unistr('\000a')||
 '        // form validation'||unistr('\000a')||
-'        $(action.attribute07).alv("validateForm", {'||unistr('\000a')||
+'        $(action.att'||
+'ribute07).alv("validateForm", {'||unistr('\000a')||
 '          formsToSubmit: action.attribute05,'||unistr('\000a')||
 '          errorMsg: action.attribute14'||unistr('\000a')||
 '        });'||unistr('\000a')||
@@ -208,7 +190,7 @@ wwv_flow_api.create_plugin (
  ,p_render_function => 'render'
  ,p_standard_attributes => 'STOP_EXECUTION_ON_ERROR'
  ,p_substitute_attributes => true
- ,p_version_identifier => '1.3'
+ ,p_version_identifier => '1.4'
  ,p_about_url => 'http://apex.oracle.com/pls/apex/f?p=59381:1'
   );
 wwv_flow_api.create_plugin_attribute (

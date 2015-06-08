@@ -156,47 +156,47 @@ describe("isAlphanumeric validation", function () {
 
 describe("isNumber validation", function () {
     it("\"123\" is a positive number (true)", function () {
-        var result = alv.validators.isNumber("123");
+        var result = alv.validators.isNumber("123", ".,");
         expect(result).toBe(true);
     });
     it("\"-123\" is a negative number (true)", function () {
-        var result = alv.validators.isNumber("-123");
+        var result = alv.validators.isNumber("-123", ".,");
         expect(result).toBe(true);
     });
     it("\"123.45\" is a positive decimal number (true)", function () {
-        var result = alv.validators.isNumber("123.45");
+        var result = alv.validators.isNumber("123.45", ".,");
         expect(result).toBe(true);
     });
     it("\"-123.45\" is a negative decimal number (true)", function () {
-        var result = alv.validators.isNumber("-123.45");
+        var result = alv.validators.isNumber("-123.45", ".,");
         expect(result).toBe(true);
     });
     it("\"0\" is a number (true)", function () {
-        var result = alv.validators.isNumber("0");
+        var result = alv.validators.isNumber("0", ".,");
         expect(result).toBe(true);
     });
     it("\".123\" is a number (true)", function () {
-        var result = alv.validators.isNumber(".123");
+        var result = alv.validators.isNumber(".123", ".,");
         expect(result).toBe(true);
     });
     it("\"-.123\" is a number (true)", function () {
-        var result = alv.validators.isNumber("-.123");
+        var result = alv.validators.isNumber("-.123", ".,");
         expect(result).toBe(true);
     });
     it("\"00001.23\" is a number (true)", function () {
-        var result = alv.validators.isNumber("00001.23");
+        var result = alv.validators.isNumber("00001.23", ".,");
         expect(result).toBe(true);
     });
     it("\"xyz\" is NOT a number (false)", function () {
-        var result = alv.validators.isNumber("xyz");
+        var result = alv.validators.isNumber("xyz", ".,");
         expect(result).not.toBe(true);
     });
     it("\"1D\" is NOT a number (false)", function () {
-        var result = alv.validators.isNumber("1D");
+        var result = alv.validators.isNumber("1D", ".,");
         expect(result).not.toBe(true);
     });
     it("\"-1D\" is NOT a number (false)", function () {
-        var result = alv.validators.isNumber("-1D");
+        var result = alv.validators.isNumber("-1D", ".,");
         expect(result).not.toBe(true);
     });
 });

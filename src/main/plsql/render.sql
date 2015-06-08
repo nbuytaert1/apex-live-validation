@@ -17,8 +17,10 @@ return apex_plugin.t_dynamic_action_render_result is
   l_error_msg            varchar2(4000) := p_dynamic_action.attribute_14;
   l_error_msg_location   varchar2(4000) := p_dynamic_action.attribute_15;
 
-  l_date_format varchar2(4000);
-  l_render_result apex_plugin.t_dynamic_action_render_result;
+  l_date_format        varchar2(4000);
+  l_numeric_characters varchar2(4000);
+
+  l_render_result      apex_plugin.t_dynamic_action_render_result;
 begin
   apex_javascript.add_library(
     p_name      => 'jquery.alv',
@@ -35,6 +37,11 @@ begin
   into l_date_format
   from nls_session_parameters
   where parameter = 'NLS_DATE_FORMAT';
+
+  select value
+  into l_numeric_characters
+  from nls_session_parameters
+  where parameter = 'NLS_NUMERIC_CHARACTERS';
 
   l_render_result.attribute_01 := l_validation;
   l_render_result.attribute_02 := apex_plugin_util.page_item_names_to_jquery(l_items_to_validate);
@@ -83,6 +90,7 @@ begin
           allowWhitespace: l_allowWhitespace,
           itemType: action.attribute06,
           dateFormat: "' || l_date_format || '",
+          numericCharacters: "' || l_numeric_characters || '",
           min: action.attribute10,
           max: action.attribute11,
           equal: action.attribute12,

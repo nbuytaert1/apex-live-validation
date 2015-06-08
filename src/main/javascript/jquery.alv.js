@@ -167,10 +167,15 @@ alv.validators = {
     /**
      * @description Check whether a value is a valid number.
      * @param {Number} pVal The value to be tested.
+     * @param {String} pNumericCharacters The NLS_NUMERIC_CHARACTERS value derived from NLS_SESSION_PARAMETERS.
      * @returns {Boolean}
      */
-    isNumber: function (pVal) {
-        return this.regex(pVal, /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/);
+    isNumber: function (pVal, pNumericCharacters) {
+        if (pNumericCharacters === ",.") {
+            return this.regex(pVal, /^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$/);
+        } else {
+            return this.regex(pVal, /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/);
+        }
     },
     /**
      * @description Check whether a value contains only digit characters.
@@ -251,11 +256,12 @@ alv.validators = {
      * @description Check whether a numeric value is not lower than pMin.
      * @param {Number} pVal The value to be tested.
      * @param {Number} pMin The minimum number.
+     * @param {String} pNumericCharacters The NLS_NUMERIC_CHARACTERS value derived from NLS_SESSION_PARAMETERS.
      * @returns {Boolean}
      */
-    minNumber: function (pVal, pMin) {
+    minNumber: function (pVal, pMin, pNumericCharacters) {
         if (!this.isEmpty(pVal) && !this.isEmpty(pMin)) {
-            if (this.isNumber(pVal) && this.isNumber(pMin)) {
+            if (this.isNumber(pVal, pNumericCharacters) && this.isNumber(pMin, pNumericCharacters)) {
                 return pVal >= pMin;
             }
         }
@@ -265,11 +271,12 @@ alv.validators = {
      * @description Check whether a numeric value is not higher than pMax.
      * @param {Number} pVal The value to be tested.
      * @param {Number} pMax The maximum number.
+     * @param {String} pNumericCharacters The NLS_NUMERIC_CHARACTERS value derived from NLS_SESSION_PARAMETERS.
      * @returns {Boolean}
      */
-    maxNumber: function (pVal, pMax) {
+    maxNumber: function (pVal, pMax, pNumericCharacters) {
         if (!this.isEmpty(pVal) && !this.isEmpty(pMax)) {
-            if (this.isNumber(pVal) && this.isNumber(pMax)) {
+            if (this.isNumber(pVal, pNumericCharacters) && this.isNumber(pMax, pNumericCharacters)) {
                 return pVal <= pMax;
             }
         }
@@ -280,13 +287,14 @@ alv.validators = {
      * @param {Number} pVal The value to be tested.
      * @param {Number} pMin The minimum number.
      * @param {Number} pMax The maximum number.
+     * @param {String} pNumericCharacters The NLS_NUMERIC_CHARACTERS value derived from NLS_SESSION_PARAMETERS.
      * @returns {Boolean}
      */
-    rangeNumber: function (pVal, pMin, pMax) {
+    rangeNumber: function (pVal, pMin, pMax, pNumericCharacters) {
         if (!this.isEmpty(pVal) && !this.isEmpty(pMin) && !this.isEmpty(pMax)) {
-            if (this.isNumber(pVal) && this.isNumber(pMin) && this.isNumber(pMax)) {
+            if (this.isNumber(pVal, pNumericCharacters) && this.isNumber(pMin, pNumericCharacters) && this.isNumber(pMax, pNumericCharacters)) {
                 if (pMax >= pMin) {
-                    return this.minNumber(pVal, pMin) && this.maxNumber(pVal, pMax);
+                    return this.minNumber(pVal, pMin, pNumericCharacters) && this.maxNumber(pVal, pMax, pNumericCharacters);
                 }
             }
         }
@@ -303,9 +311,9 @@ alv.validators = {
         var totalChecked = $(pChoices).filter(':checked').length;
 
         if (pEmptyAllowed) {
-            return this.minNumber(totalChecked, pMin) || totalChecked === 0;
+            return this.minNumber(totalChecked, pMin, null) || totalChecked === 0;
         } else {
-            return this.minNumber(totalChecked, pMin);
+            return this.minNumber(totalChecked, pMin, null);
         }
     },
     /**
@@ -316,7 +324,7 @@ alv.validators = {
      */
     maxCheck: function (pChoices, pMax) {
         var totalChecked = $(pChoices).filter(':checked').length;
-        return this.maxNumber(totalChecked, pMax) || totalChecked === 0;
+        return this.maxNumber(totalChecked, pMax, null) || totalChecked === 0;
     },
     /**
      * @description Check whether the amount of selected checkboxes lies pMin and pMax.
@@ -327,7 +335,7 @@ alv.validators = {
      */
     rangeCheck: function (pChoices, pMin, pMax) {
         var totalChecked = $(pChoices).filter(':checked').length;
-        return this.rangeNumber(totalChecked, pMin, pMax) || totalChecked === 0;
+        return this.rangeNumber(totalChecked, pMin, pMax, null) || totalChecked === 0;
     },
     /**
      * @description Check whether a date does not lie before pMin.
@@ -415,7 +423,8 @@ alv.validators = {
             // apex related
             'apexCheckboxClass': 'checkbox_group',
             'apexRadioClass': 'radio_group',
-            'apexShuttleClass': 'shuttle'
+            'apexShuttleClass': 'shuttle',
+            'apexDatepickerClass': 'datepicker'
         };
         $.extend(constants, {
             // element data keys
@@ -449,6 +458,7 @@ alv.validators = {
             'allowWhitespace': true,
             'itemType': '',
             'dateFormat': '',
+            'numericCharacters': '',
             'min': '',
             'max': '',
             'equal': '',
@@ -534,7 +544,8 @@ alv.validators = {
                         elem.hasClass(constants.apexRadioClass) ||
                         elem.hasClass(constants.apexShuttleClass) ||
                         elem.prop('tagName') === 'SELECT' ||
-                        elem.attr('type') === 'file') {
+                        elem.attr('type') === 'file' ||
+                        elem.hasClass(constants.apexDatepickerClass)) {
                         if (settings.triggeringEvent !== 'change') {
                             triggeringEvent = triggeringEvent + ' ' + changeEvent;
                         }
@@ -672,7 +683,7 @@ alv.validators = {
                             itemTypeErrorMsg = setMsg(settings.errorMsg, "not an alphanumeric value");
                             break;
                         case 'number':
-                            itemTypeOk = validators.isNumber(this.value);
+                            itemTypeOk = validators.isNumber(this.value, settings.numericCharacters);
                             itemTypeErrorMsg = setMsg(settings.errorMsg, "not a valid number");
                             break;
                         case 'digit':
@@ -743,13 +754,13 @@ alv.validators = {
             if (allowValidation(this, constants.numberSizeClass)) {
                 if (validators.minLength(this.value, settings.validationMinLength)) {
                     if (validators.isEmpty(settings.max)) {
-                        numberSizeOk = validators.minNumber(value, min);
+                        numberSizeOk = validators.minNumber(value, min, settings.numericCharacters);
                         numberSizeErrorMsg = replaceMsgVars(setMsg(settings.errorMsg, "number too small - min. &1"), min);
                     } else if (validators.isEmpty(settings.min)) {
-                        numberSizeOk = validators.maxNumber(value, max);
+                        numberSizeOk = validators.maxNumber(value, max, settings.numericCharacters);
                         numberSizeErrorMsg = replaceMsgVars(setMsg(settings.errorMsg, "number too large - max. &1"), max);
                     } else {
-                        numberSizeOk = validators.rangeNumber(value, min, max);
+                        numberSizeOk = validators.rangeNumber(value, min, max, settings.numericCharacters);
                         numberSizeErrorMsg = replaceMsgVars(setMsg(settings.errorMsg, "invalid number size - between &1 and &2 only"), min, max);
                     }
 

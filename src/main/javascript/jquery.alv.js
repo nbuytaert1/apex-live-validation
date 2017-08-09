@@ -983,6 +983,7 @@ alv.validators = {
                     origClickEvent = firingElem.attr('onclick');
                     firingElem.data(constants.origClickEvent, origClickEvent);
                     firingElem.removeAttr('onclick');
+                    firingElem.prop('onclick', null);  // issue #18
                 }
 
                 bodyElem.delegate('#' + firingElem.attr('id'), 'click', function () {
